@@ -84,23 +84,42 @@ These rules govern how every task on this project must be approached:
 - Retro terminal text: "SURVIVOR NETWORK: X CONNECTED"
 - Drones spawned in Phase 2 based on survivorCount
 
-## Code Conventions
-- Language: C# (Unity)
-- All tunable values: `[SerializeField]` — never hardcode balance values
-- Group Inspector fields with `[Header("Section Name")]`
-- Prefer `Coroutine` for timed state changes (overheat lockout, shield window)
-- Enemy tags: `"Enemy"`, `"Boss"`, `"Bot"` — use tags for collision detection
-- No `FindObjectOfType` in Update — cache references in Awake/Start
-- Scenes: `Phase1_2D`, `Transition`, `Phase2_3D`
-- Scripts folder structure:
-  ```
-  Scripts/
-    Player/     — PlayerController2D, PlayerController3D, DroneManager, BoostSystem, WeaponSystem
-    Enemies/    — EnemyChaser, EnemyFlanker, BossController2D, EnemyShield, EnemySpawner
-    Bots/       — BotPickup2D, DroneOrbit
-    Systems/    — GameStateManager, MissileHoming, BillboardSprite, TargetLock
-    UI/         — HeatBarUI, BoostBarUI, DroneCountUI, CrosshairUI, TransitionScreen
-  ```
+## Code Conventions & Architecture (Unity 6 / IL2CPP)
+
+### Memory & Performance Management
+- **Zero Garbage Collection (GC) in Updates:** Never use `Instantiate`, `GetComponent`, or string concatenations inside `Update()`, `FixedUpdate()`, or `LateUpdate()`.
+- **Caching:** Cache references to components (`Transform`, `Rigidbody`, etc.) inside `Awake()` or `Start()`. No `FindObjectOfType` in Update.
+- **String Caching:** Cache Animator property strings or Shader IDs using `Animator.StringToHash()` and `Shader.PropertyToID()`.
+- **Object Pooling:** Use Unity's native `UnityEngine.Pool` for high-frequency spawning objects (lasers, particles, drones).
+- **Coroutines:** Prefer native Coroutines for timed state changes (overheat lockout, shield window).
+
+### Component & Scene Management
+- **Explicit Dependencies:** Use `[RequireComponent(typeof(T))]` when a script strictly relies on another component.
+- **Frame-Rate Independence:** Always multiply movement/rotations by `Time.deltaTime` in `Update()` or `Time.fixedDeltaTime` in `FixedUpdate()`.
+- **Physics:** When manipulating `Rigidbody` in Unity 6, use the updated API properties like `linearVelocity` and `angularVelocity`.
+- **Tags:** Enemy tags: `"Enemy"`, `"Boss"`, `"Bot"` — use tags for collision detection.
+- **Scenes:** `Phase1_2D`, `Transition`, `Phase2_3D`
+
+### Layout Architecture & Inspector
+- Keep classes highly modular and single-responsibility focused (SOLID principles).
+- Utilize `ScriptableObject` for data-driven design when passing state between scenes (e.g., survivorCount) or sharing stats.
+- Keep variables `private` or `protected` by default. Expose fields using `[SerializeField]`. Never hardcode balance values.
+- Group inspector fields cleanly using attributes: `[Header("Section Name")]`, `[Space]`, and `[Tooltip("...")]`.
+
+### Scripts Folder Structure
+```text
+Scripts/
+  Player/     — PlayerController2D, PlayerController3D, DroneManager, BoostSystem, WeaponSystem
+  Enemies/    — EnemyChaser, EnemyFlanker, BossController2D, EnemyShield, EnemySpawner
+  Bots/       — BotPickup2D, DroneOrbit
+  Systems/    — GameStateManager, MissileHoming, BillboardSprite, TargetLock
+  UI/         — HeatBarUI, BoostBarUI, DroneCountUI, CrosshairUI, TransitionScreen
+```
+
+## Agentic Workflow (MCP Spirit)
+1. **Plan:** Before writing code for a new feature, output a high-level technical architectural plan. Wait for user confirmation before modifying files if structural changes are large.
+2. **Compile Check:** Perform a localized mock compilation check whenever creating/modifying a script. Address errors immediately without blindly overwriting.
+3. **Verify Existing:** Check existing implementations (e.g., SKILL.md rules, codebase) before duplicating logic.
 
 ## GitHub Workflow
 - 15+ issues already created and live on the board
