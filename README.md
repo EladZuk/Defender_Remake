@@ -1,6 +1,7 @@
 # Defender Reimagined
 
-> A Unity WebGL game built for the Shenkar College Game Dev course — **Retro Reimagined** brief.
+> A Unity WebGL game built for the Shenkar College Game Dev course — **Retro Reimagined** brief.  
+> **Elad Zukin**
 
 ---
 
