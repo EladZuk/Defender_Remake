@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace DefenderRemake.Player
 {
-    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerController2D : MonoBehaviour
     {
         [Header("Movement Dynamics")]
@@ -19,35 +19,34 @@ namespace DefenderRemake.Player
         private float stoppingDrag = 3f;
 
         [Header("Visuals")]
-        [SerializeField, Tooltip("The child object containing the ship model to flip")] 
-        private Transform shipModel;
-        
-        [SerializeField, Tooltip("Rotation speed when flipping direction")] 
-        private float flipSpeed = 15f;
+        [SerializeField, Tooltip("The SpriteRenderer to flip horizontally")] 
+        private SpriteRenderer shipSprite;
 
         [Header("Dependencies")]
         [SerializeField, Tooltip("Optional reference to the BoostSystem. If null, tries to find it on this GameObject.")] 
         private BoostSystem boostSystem;
 
-        private Rigidbody _rb;
+        private Rigidbody2D _rb;
         private Vector2 _moveInput;
-        private float _targetYRotation = 0f;
 
         private void Awake()
         {
-            _rb = GetComponent<Rigidbody>();
+            _rb = GetComponent<Rigidbody2D>();
             
-            // Enforce 2D constraints on the 3D Rigidbody
-            _rb.constraints = RigidbodyConstraints.FreezePositionZ | 
-                              RigidbodyConstraints.FreezeRotationX | 
-                              RigidbodyConstraints.FreezeRotationY | 
-                              RigidbodyConstraints.FreezeRotationZ;
+            // Enforce zero gravity for flying feel
+            _rb.gravityScale = 0f;
             
-            _rb.useGravity = false; // It's a flying ship
+            // Lock Z rotation so the ship doesn't spin wildly when hitting the tilemap
+            _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             
             if (boostSystem == null)
             {
                 boostSystem = GetComponent<BoostSystem>();
+            }
+
+            if (shipSprite == null)
+            {
+                shipSprite = GetComponentInChildren<SpriteRenderer>();
             }
         }
 
@@ -69,21 +68,16 @@ namespace DefenderRemake.Player
             float vertical = Input.GetAxisRaw("Vertical");
             
             _moveInput = new Vector2(horizontal, vertical).normalized;
-
-            // Determine facing direction for visuals based on input
-            if (horizontal > 0.1f)
-                _targetYRotation = 0f;
-            else if (horizontal < -0.1f)
-                _targetYRotation = 180f;
         }
 
         private void HandleVisualFlip()
         {
-            if (shipModel != null)
+            if (shipSprite != null)
             {
-                // Smoothly rotate the model 180 degrees on Y axis when changing direction
-                Quaternion targetRot = Quaternion.Euler(0f, _targetYRotation, 0f);
-                shipModel.localRotation = Quaternion.Slerp(shipModel.localRotation, targetRot, flipSpeed * Time.deltaTime);
+                if (_moveInput.x > 0.1f)
+                    shipSprite.flipX = false;
+                else if (_moveInput.x < -0.1f)
+                    shipSprite.flipX = true;
             }
         }
 
@@ -101,17 +95,17 @@ namespace DefenderRemake.Player
 
             // Calculate force including boost multiplier
             float currentBoost = boostSystem != null ? boostSystem.GetSpeedMultiplier() : 1f;
-            Vector3 force = new Vector3(_moveInput.x, _moveInput.y, 0f) * (moveForce * currentBoost);
+            Vector2 force = new Vector2(_moveInput.x, _moveInput.y) * (moveForce * currentBoost);
             
-            _rb.AddForce(force, ForceMode.Acceleration);
+            _rb.AddForce(force, ForceMode2D.Force);
 
             // Clamp velocity to max speeds to prevent infinite acceleration
-            Vector3 currentVel = _rb.linearVelocity; // Unity 6 uses linearVelocity
+            Vector2 currentVel = _rb.linearVelocity; // Unity 6 uses linearVelocity
             
             float clampedX = Mathf.Clamp(currentVel.x, -maxHorizontalSpeed * currentBoost, maxHorizontalSpeed * currentBoost);
             float clampedY = Mathf.Clamp(currentVel.y, -maxVerticalSpeed * currentBoost, maxVerticalSpeed * currentBoost);
             
-            _rb.linearVelocity = new Vector3(clampedX, clampedY, 0f);
+            _rb.linearVelocity = new Vector2(clampedX, clampedY);
         }
     }
 }
