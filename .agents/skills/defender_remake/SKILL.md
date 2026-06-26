@@ -8,6 +8,21 @@ description: >
 
 # Defender Remake — Project Skill
 
+## Working Rules (Always Follow These)
+
+These rules govern how every task on this project must be approached:
+
+1. **Check before creating** — Before writing any new variable, component, script, or system, search the existing codebase for related variables or implementations first. Never duplicate what already exists.
+
+2. **Verify before committing** — Do not give answers based on assumptions. If something depends on Unity API behavior, WebGL limitations, or package compatibility, check the relevant documentation before stating it will work. Say "I need to verify this" if unsure.
+
+3. **Always offer alternatives** — Before committing to a specific implementation approach, present at least one alternative with a brief tradeoff. Let the developer choose, don't just pick one silently.
+
+4. **Work in steps, explain every change** — Break tasks into clear numbered steps. When making any code or file change, explain:
+   - What changed
+   - Why it changed
+   - What to watch out for
+
 ## Project Identity
 - **Game**: Defender (1981) reimagined — 2D rescue phase → 3D aerial combat phase
 - **Engine**: Unity (URP), WebGL build target
