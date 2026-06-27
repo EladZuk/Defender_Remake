@@ -13,12 +13,14 @@ namespace DefenderRemake.Player
 
         private IObjectPool<LaserProjectile2D> _pool;
         private Rigidbody2D _rb;
+        private SpriteRenderer _sr;
 
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
             _rb.gravityScale = 0f;
-            _rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous; // Fast moving projectile
+            _rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+            _sr = GetComponent<SpriteRenderer>();
         }
 
         public void SetPool(IObjectPool<LaserProjectile2D> pool)
@@ -29,6 +31,11 @@ namespace DefenderRemake.Player
         public void Fire(Vector2 direction)
         {
             _rb.linearVelocity = direction.normalized * speed;
+
+            // Flip sprite to match travel direction
+            if (_sr != null)
+                _sr.flipX = direction.x < 0f;
+
             StartCoroutine(LifeTimer());
         }
 

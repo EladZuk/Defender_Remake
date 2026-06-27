@@ -29,7 +29,13 @@ namespace DefenderRemake.Player
         private float fireRate = 0.33f; // ~3 shots per sec
 
         // State
-        public float CurrentHeat { get; private set; } = 0f;
+        [SerializeField, HideInInspector] // visible in inspector for debugging without being editable
+        private float _currentHeatDebug;
+        public float CurrentHeat
+        {
+            get => _currentHeatDebug;
+            private set => _currentHeatDebug = value;
+        }
         public bool IsOverheated { get; private set; }
         
         private float _nextFireTime = 0f;
@@ -67,6 +73,7 @@ namespace DefenderRemake.Player
         {
             if (IsOverheated || Time.time < _nextFireTime) return;
 
+            // GetKeyDown = tap to fire. Fire rate is controlled by _nextFireTime
             if (Input.GetKeyDown(fireKey))
             {
                 FireLaser();
