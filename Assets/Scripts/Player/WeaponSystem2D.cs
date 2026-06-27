@@ -39,6 +39,7 @@ namespace DefenderRemake.Player
         public bool IsOverheated { get; private set; }
         
         private float _nextFireTime = 0f;
+        private Coroutine _overheatCoroutine;
         private IObjectPool<LaserProjectile2D> _laserPool;
 
         private void Awake()
@@ -83,12 +84,12 @@ namespace DefenderRemake.Player
         private void FireLaser()
         {
             _nextFireTime = Time.time + fireRate;
-            CurrentHeat += heatPerShot;
+            CurrentHeat = Mathf.Clamp(CurrentHeat + heatPerShot, 0f, 100f);
 
-            if (CurrentHeat >= 100f)
+            // Only start the overheat routine if one isn't already running
+            if (CurrentHeat >= 100f && _overheatCoroutine == null)
             {
-                CurrentHeat = 100f;
-                StartCoroutine(OverheatRoutine());
+                _overheatCoroutine = StartCoroutine(OverheatRoutine());
             }
 
             // Get a projectile from the pool
@@ -116,13 +117,10 @@ namespace DefenderRemake.Player
         private IEnumerator OverheatRoutine()
         {
             IsOverheated = true;
-            
-            // Wait for the lockout penalty
             yield return new WaitForSeconds(overheatLockoutDuration);
-            
-            // Clear heat and unlock
             CurrentHeat = 0f;
             IsOverheated = false;
+            _overheatCoroutine = null; // Clear so the next overheat can start a fresh coroutine
         }
     }
 }
