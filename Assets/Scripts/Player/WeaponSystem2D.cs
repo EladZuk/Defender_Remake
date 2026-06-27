@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Pool;
 using System.Collections;
+using DefenderRemake.UI;
 
 namespace DefenderRemake.Player
 {
@@ -16,7 +17,7 @@ namespace DefenderRemake.Player
 
         [Header("UI")]
         [SerializeField, Tooltip("Reference to the HeatBarUI to update every frame")]
-        private UI.HeatBarUI heatBarUI;
+        private HeatBarUI heatBarUI;
 
         [Header("Overheat Mechanics")]
         [SerializeField, Tooltip("How much heat is generated per shot (max 100)")] 
@@ -28,8 +29,8 @@ namespace DefenderRemake.Player
         [SerializeField, Tooltip("Time between allowed shots")] 
         private float fireRate = 0.33f; // ~3 shots per sec
 
-        // State
-        [SerializeField, HideInInspector] // visible in inspector for debugging without being editable
+        // State — SerializeField makes CurrentHeat visible in Inspector during Play Mode
+        [SerializeField]
         private float _currentHeatDebug;
         public float CurrentHeat
         {
