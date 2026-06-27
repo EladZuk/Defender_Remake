@@ -35,21 +35,20 @@ namespace DefenderRemake.Systems
             // Orthographic to get the flat 2D top-down view of the level
             _cam.orthographic = true;
 
-            // The camera's aspect ratio is driven by the RenderTexture dimensions.
-            // Set via RenderTexture asset (e.g. 900 x 48) to get a wide scanner view.
             if (scannerRenderTexture != null)
             {
                 _cam.targetTexture = scannerRenderTexture;
-                
-                // Calculate ortho size to perfectly fit the scanner width!
-                float aspect = (float)scannerRenderTexture.width / scannerRenderTexture.height;
-                _cam.orthographicSize = scannerDisplayHalfWidth / aspect;
             }
-            else
-            {
-                // Fallback
-                _cam.orthographicSize = levelHalfHeight;
-            }
+
+            // Override the camera's projection matrix to EXACTLY fit the width and height
+            // we want, ignoring aspect ratio. This guarantees the map fits perfectly
+            // into the minimap UI box (with slight stretching if the RT aspect is off).
+            Matrix4x4 orthoMatrix = Matrix4x4.Ortho(
+                -scannerDisplayHalfWidth, scannerDisplayHalfWidth, 
+                -levelHalfHeight, levelHalfHeight, 
+                _cam.nearClipPlane, _cam.farClipPlane
+            );
+            _cam.projectionMatrix = orthoMatrix;
 
             // Center the camera on the level (X=0, Y=0)
             transform.position = new Vector3(0f, 0f, transform.position.z);
