@@ -11,9 +11,9 @@ namespace DefenderRemake.Systems
     [RequireComponent(typeof(Camera))]
     public class ScannerCamera : MonoBehaviour
     {
-        [Header("Level Dimensions")]
-        [SerializeField, Tooltip("Half the total level width (match LevelBoundX on CameraController2D)")]
-        private float levelHalfWidth = 150f;
+        [Header("Scanner Dimensions")]
+        [SerializeField, Tooltip("How much of the map width to show on the scanner. Lower this to zoom in and hide edge walls.")]
+        private float scannerDisplayHalfWidth = 100f;
 
         [SerializeField, Tooltip("Half the total level height (match minY/maxY on PlayerController2D)")]
         private float levelHalfHeight = 8f;
@@ -41,9 +41,9 @@ namespace DefenderRemake.Systems
             {
                 _cam.targetTexture = scannerRenderTexture;
                 
-                // Calculate ortho size to perfectly fit the full level width!
+                // Calculate ortho size to perfectly fit the scanner width!
                 float aspect = (float)scannerRenderTexture.width / scannerRenderTexture.height;
-                _cam.orthographicSize = levelHalfWidth / aspect;
+                _cam.orthographicSize = scannerDisplayHalfWidth / aspect;
             }
             else
             {

@@ -15,9 +15,9 @@ namespace DefenderRemake.UI
         [SerializeField, Tooltip("The RectTransform of the scanner map (the RawImage)")]
         private RectTransform scannerMapRect;
 
-        [Header("Level Settings")]
-        [SerializeField, Tooltip("Half the total level width (must match CameraController2D/ScannerCamera)")]
-        private float levelHalfWidth = 150f;
+        [Header("Scanner Settings")]
+        [SerializeField, Tooltip("Must match Scanner Display Half Width on the ScannerCamera!")]
+        private float scannerDisplayHalfWidth = 100f;
 
         private RectTransform _indicatorRect;
 
@@ -35,7 +35,8 @@ namespace DefenderRemake.UI
             float camWorldX = mainCamera.transform.position.x;
 
             // 2. Normalize it to 0-1 range (0 = left edge, 1 = right edge)
-            float normalizedX = Mathf.InverseLerp(-levelHalfWidth, levelHalfWidth, camWorldX);
+            // InverseLerp automatically clamps, so if camera goes past the display width, the box stops at the edge
+            float normalizedX = Mathf.InverseLerp(-scannerDisplayHalfWidth, scannerDisplayHalfWidth, camWorldX);
 
             // 3. Map the normalized 0-1 value to the pixel width of the scanner UI bar
             float mapWidth = scannerMapRect.rect.width;
