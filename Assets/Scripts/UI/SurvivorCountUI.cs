@@ -16,6 +16,9 @@ namespace DefenderRemake.UI
         [SerializeField, Tooltip("The TextMeshPro element to update")]
         private TextMeshProUGUI countText;
 
+        [SerializeField, Tooltip("Prefix text to appear before the number")]
+        private string prefixText = "SURVIVORS SAVED: ";
+
         private void OnEnable()
         {
             if (sessionData != null)
@@ -45,7 +48,7 @@ namespace DefenderRemake.UI
         {
             if (countText != null)
             {
-                countText.text = count.ToString();
+                countText.text = prefixText + count.ToString();
             }
         }
     }

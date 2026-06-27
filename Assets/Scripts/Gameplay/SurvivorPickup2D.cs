@@ -21,6 +21,12 @@ namespace DefenderRemake.Gameplay
 
         private bool _isCollected = false;
 
+        private void Awake()
+        {
+            // Foolproof: ensure the collider is a trigger so the player doesn't crash into it
+            GetComponent<Collider2D>().isTrigger = true;
+        }
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (_isCollected) return;
