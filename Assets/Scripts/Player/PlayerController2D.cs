@@ -26,7 +26,7 @@ namespace DefenderRemake.Player
         private float maxY = 8f;
 
         [Header("Visuals")]
-        [SerializeField, Tooltip("The SpriteRenderer to flip horizontally")] 
+        [SerializeField, Tooltip("Sprite renderer of the ship - only used to face the correct direction via scale flip")]
         private SpriteRenderer shipSprite;
 
         [Header("Dependencies")]
@@ -80,13 +80,12 @@ namespace DefenderRemake.Player
 
         private void HandleVisualFlip()
         {
-            if (shipSprite != null)
-            {
-                if (_moveInput.x > 0.1f)
-                    shipSprite.flipX = false;
-                else if (_moveInput.x < -0.1f)
-                    shipSprite.flipX = true;
-            }
+            // Flip the entire transform (not just the sprite) so child objects
+            // like BoostEffect automatically move to the correct rear side
+            if (_moveInput.x > 0.1f)
+                transform.localScale = new Vector3(1f, 1f, 1f);
+            else if (_moveInput.x < -0.1f)
+                transform.localScale = new Vector3(-1f, 1f, 1f);
         }
 
         private void ApplyMovement()
