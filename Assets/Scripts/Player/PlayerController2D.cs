@@ -18,6 +18,10 @@ namespace DefenderRemake.Player
         [SerializeField, Tooltip("Drag applied when no input is pressed to simulate floaty retro deceleration")] 
         private float stoppingDrag = 3f;
 
+        [Space]
+        [SerializeField, Tooltip("ON = instant direction response (snappy). OFF = built-in Unity input smoothing (floaty).")]
+        private bool useRawInput = false;
+
         [Header("Level Bounds")]
         [SerializeField, Tooltip("Lowest point the player can fly")]
         private float minY = -8f;
@@ -71,10 +75,10 @@ namespace DefenderRemake.Player
 
         private void HandleInput()
         {
-            // We use GetAxis for a slight input delay, adding to the floaty, heavy feel of the ship
-            float horizontal = Input.GetAxis("Horizontal");
-            float vertical = Input.GetAxis("Vertical");
-            
+            // Toggle between raw (snappy) and smoothed (floaty) input via Inspector checkbox
+            float horizontal = useRawInput ? Input.GetAxisRaw("Horizontal") : Input.GetAxis("Horizontal");
+            float vertical   = useRawInput ? Input.GetAxisRaw("Vertical")   : Input.GetAxis("Vertical");
+
             _moveInput = new Vector2(horizontal, vertical).normalized;
         }
 
