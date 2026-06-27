@@ -14,6 +14,10 @@ namespace DefenderRemake.Player
         [SerializeField, Tooltip("Input key to shoot")] 
         private KeyCode fireKey = KeyCode.Space;
 
+        [Header("UI")]
+        [SerializeField, Tooltip("Reference to the HeatBarUI to update every frame")]
+        private UI.HeatBarUI heatBarUI;
+
         [Header("Overheat Mechanics")]
         [SerializeField, Tooltip("How much heat is generated per shot (max 100)")] 
         private float heatPerShot = 20f;
@@ -54,6 +58,9 @@ namespace DefenderRemake.Player
         {
             HandleFiring();
             ProcessHeat();
+            // Push heat state to the UI bar every frame
+            if (heatBarUI != null)
+                heatBarUI.SetHeat(CurrentHeat, IsOverheated);
         }
 
         private void HandleFiring()
@@ -81,15 +88,9 @@ namespace DefenderRemake.Player
             var laser = _laserPool.Get();
             laser.transform.position = firePoint.position;
             
-            // Determine firing direction based on player facing
-            // We can read the local scale or the SpriteRenderer flipX if available,
-            // but for a true retro feel, we can just fire horizontally based on the transform's right
-            // If the parent is flipping, right is flipped.
-            
-            // Wait, PlayerController2D flips the SpriteRenderer, NOT the transform.
-            // Let's grab the sprite renderer from the parent to check facing direction
-            SpriteRenderer sr = GetComponentInChildren<SpriteRenderer>();
-            Vector2 fireDir = (sr != null && sr.flipX) ? Vector2.left : Vector2.right;
+            // Firing direction uses transform.localScale.x
+            // PlayerController2D flips the whole transform (scale -1 = facing left)
+            Vector2 fireDir = transform.localScale.x >= 0f ? Vector2.right : Vector2.left;
 
             laser.Fire(fireDir);
             
