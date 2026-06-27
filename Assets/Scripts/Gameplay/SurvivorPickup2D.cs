@@ -54,7 +54,9 @@ namespace DefenderRemake.Gameplay
             // 2. Spawn floating text effect
             if (savedTextPrefab != null)
             {
-                Instantiate(savedTextPrefab, transform.position, Quaternion.identity);
+                // Spawn slightly above the bot
+                Vector3 spawnPos = transform.position + Vector3.up * 0.75f;
+                Instantiate(savedTextPrefab, spawnPos, Quaternion.identity);
             }
 
             // 3. Remove bot from scene
