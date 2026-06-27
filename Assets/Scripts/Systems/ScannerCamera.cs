@@ -11,9 +11,9 @@ namespace DefenderRemake.Systems
     [RequireComponent(typeof(Camera))]
     public class ScannerCamera : MonoBehaviour
     {
-        [Header("Level Dimensions")]
-        [SerializeField, Tooltip("Half the total level width (match LevelBoundX on CameraController2D)")]
-        private float levelHalfWidth = 150f;
+        [Header("Scanner Dimensions")]
+        [SerializeField, Tooltip("How much of the map width to show on the scanner. Lower this to zoom in and hide edge walls.")]
+        private float scannerDisplayHalfWidth = 100f;
 
         [SerializeField, Tooltip("Half the total level height (match minY/maxY on PlayerController2D)")]
         private float levelHalfHeight = 8f;
@@ -35,13 +35,20 @@ namespace DefenderRemake.Systems
             // Orthographic to get the flat 2D top-down view of the level
             _cam.orthographic = true;
 
-            // Ortho size = half height of the level
-            _cam.orthographicSize = levelHalfHeight;
-
-            // The camera's aspect ratio is driven by the RenderTexture dimensions.
-            // Set via RenderTexture asset (e.g. 900 x 48) to get a wide scanner view.
             if (scannerRenderTexture != null)
+            {
                 _cam.targetTexture = scannerRenderTexture;
+            }
+
+            // Override the camera's projection matrix to EXACTLY fit the width and height
+            // we want, ignoring aspect ratio. This guarantees the map fits perfectly
+            // into the minimap UI box (with slight stretching if the RT aspect is off).
+            Matrix4x4 orthoMatrix = Matrix4x4.Ortho(
+                -scannerDisplayHalfWidth, scannerDisplayHalfWidth, 
+                -levelHalfHeight, levelHalfHeight, 
+                _cam.nearClipPlane, _cam.farClipPlane
+            );
+            _cam.projectionMatrix = orthoMatrix;
 
             // Center the camera on the level (X=0, Y=0)
             transform.position = new Vector3(0f, 0f, transform.position.z);
