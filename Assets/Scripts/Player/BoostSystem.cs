@@ -22,10 +22,27 @@ namespace DefenderRemake.Player
         [SerializeField, Tooltip("Input key to trigger boost")] 
         private KeyCode boostKey = KeyCode.LeftShift;
 
+        [Header("Visuals")]
+        [SerializeField, Tooltip("Child GameObject with SpriteAnimator to show while boosting")]
+        private GameObject boostVisualEffect;
+
         // State properties
         public float CurrentMeter { get; private set; } = 100f;
-        public bool IsBoosting { get; private set; }
         public bool IsLockedOut { get; private set; }
+
+        private bool _isBoosting;
+        public bool IsBoosting
+        {
+            get => _isBoosting;
+            private set
+            {
+                if (_isBoosting == value) return;
+                _isBoosting = value;
+                // Toggle the visual effect whenever boost state actually changes
+                if (boostVisualEffect != null)
+                    boostVisualEffect.SetActive(_isBoosting);
+            }
+        }
 
         private Coroutine _cooldownCoroutine;
 
