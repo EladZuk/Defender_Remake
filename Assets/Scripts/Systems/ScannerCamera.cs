@@ -35,13 +35,21 @@ namespace DefenderRemake.Systems
             // Orthographic to get the flat 2D top-down view of the level
             _cam.orthographic = true;
 
-            // Ortho size = half height of the level
-            _cam.orthographicSize = levelHalfHeight;
-
             // The camera's aspect ratio is driven by the RenderTexture dimensions.
             // Set via RenderTexture asset (e.g. 900 x 48) to get a wide scanner view.
             if (scannerRenderTexture != null)
+            {
                 _cam.targetTexture = scannerRenderTexture;
+                
+                // Calculate ortho size to perfectly fit the full level width!
+                float aspect = (float)scannerRenderTexture.width / scannerRenderTexture.height;
+                _cam.orthographicSize = levelHalfWidth / aspect;
+            }
+            else
+            {
+                // Fallback
+                _cam.orthographicSize = levelHalfHeight;
+            }
 
             // Center the camera on the level (X=0, Y=0)
             transform.position = new Vector3(0f, 0f, transform.position.z);
