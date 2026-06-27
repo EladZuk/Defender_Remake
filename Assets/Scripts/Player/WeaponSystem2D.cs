@@ -108,10 +108,11 @@ namespace DefenderRemake.Player
 
         private void ProcessHeat()
         {
-            if (!IsOverheated && CurrentHeat > 0f)
+            // Cool down whether or not we are overheated
+            // The lockout (IsOverheated) only blocks firing — not the visual cooldown
+            if (CurrentHeat > 0f)
             {
-                CurrentHeat -= passiveCooldownRate * Time.deltaTime;
-                CurrentHeat = Mathf.Max(CurrentHeat, 0f);
+                CurrentHeat = Mathf.Max(CurrentHeat - passiveCooldownRate * Time.deltaTime, 0f);
             }
         }
 
@@ -119,9 +120,9 @@ namespace DefenderRemake.Player
         {
             IsOverheated = true;
             yield return new WaitForSeconds(overheatLockoutDuration);
-            CurrentHeat = 0f;
+            // Lockout ends — heat continues to drain via ProcessHeat naturally
             IsOverheated = false;
-            _overheatCoroutine = null; // Clear so the next overheat can start a fresh coroutine
+            _overheatCoroutine = null;
         }
     }
 }
