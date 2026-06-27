@@ -18,6 +18,10 @@ namespace DefenderRemake.Player
         [SerializeField, Tooltip("Drag applied when no input is pressed to simulate floaty retro deceleration")] 
         private float stoppingDrag = 3f;
 
+        [Space]
+        [SerializeField, Tooltip("ON = instant direction response (snappy). OFF = built-in Unity input smoothing (floaty).")]
+        private bool useRawInput = false;
+
         [Header("Level Bounds")]
         [SerializeField, Tooltip("Lowest point the player can fly")]
         private float minY = -8f;
@@ -26,7 +30,7 @@ namespace DefenderRemake.Player
         private float maxY = 8f;
 
         [Header("Visuals")]
-        [SerializeField, Tooltip("The SpriteRenderer to flip horizontally")] 
+        [SerializeField, Tooltip("Sprite renderer of the ship - only used to face the correct direction via scale flip")]
         private SpriteRenderer shipSprite;
 
         [Header("Dependencies")]
@@ -71,22 +75,21 @@ namespace DefenderRemake.Player
 
         private void HandleInput()
         {
-            // We use GetAxis for a slight input delay, adding to the floaty, heavy feel of the ship
-            float horizontal = Input.GetAxis("Horizontal");
-            float vertical = Input.GetAxis("Vertical");
-            
+            // Toggle between raw (snappy) and smoothed (floaty) input via Inspector checkbox
+            float horizontal = useRawInput ? Input.GetAxisRaw("Horizontal") : Input.GetAxis("Horizontal");
+            float vertical   = useRawInput ? Input.GetAxisRaw("Vertical")   : Input.GetAxis("Vertical");
+
             _moveInput = new Vector2(horizontal, vertical).normalized;
         }
 
         private void HandleVisualFlip()
         {
-            if (shipSprite != null)
-            {
-                if (_moveInput.x > 0.1f)
-                    shipSprite.flipX = false;
-                else if (_moveInput.x < -0.1f)
-                    shipSprite.flipX = true;
-            }
+            // Flip the entire transform (not just the sprite) so child objects
+            // like BoostEffect automatically move to the correct rear side
+            if (_moveInput.x > 0.1f)
+                transform.localScale = new Vector3(1f, 1f, 1f);
+            else if (_moveInput.x < -0.1f)
+                transform.localScale = new Vector3(-1f, 1f, 1f);
         }
 
         private void ApplyMovement()
