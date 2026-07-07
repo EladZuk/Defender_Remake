@@ -15,8 +15,11 @@ namespace DefenderRemake.Systems
         [SerializeField, Tooltip("How much of the map width to show on the scanner. Lower this to zoom in and hide edge walls.")]
         private float scannerDisplayHalfWidth = 100f;
 
-        [SerializeField, Tooltip("Half the total level height (match minY/maxY on PlayerController2D)")]
-        private float levelHalfHeight = 8f;
+        [SerializeField, Tooltip("Lowest point of the level (match minY on PlayerController2D)")]
+        private float minY = -8f;
+
+        [SerializeField, Tooltip("Highest point of the level (match maxY on PlayerController2D)")]
+        private float maxY = 8f;
 
         [Header("Render Target")]
         [SerializeField, Tooltip("The RenderTexture asset this camera renders into")]
@@ -40,9 +43,12 @@ namespace DefenderRemake.Systems
                 _cam.targetTexture = scannerRenderTexture;
             }
 
+            // Calculate true center and height based on min/max Y
+            float levelHeight = maxY - minY;
+            float levelHalfHeight = levelHeight / 2f;
+            float centerY = minY + levelHalfHeight;
+
             // Override the camera's projection matrix to EXACTLY fit the width and height
-            // we want, ignoring aspect ratio. This guarantees the map fits perfectly
-            // into the minimap UI box (with slight stretching if the RT aspect is off).
             Matrix4x4 orthoMatrix = Matrix4x4.Ortho(
                 -scannerDisplayHalfWidth, scannerDisplayHalfWidth, 
                 -levelHalfHeight, levelHalfHeight, 
@@ -50,8 +56,8 @@ namespace DefenderRemake.Systems
             );
             _cam.projectionMatrix = orthoMatrix;
 
-            // Center the camera on the level (X=0, Y=0)
-            transform.position = new Vector3(0f, 0f, transform.position.z);
+            // Center the camera on the true vertical center of the level
+            transform.position = new Vector3(0f, centerY, transform.position.z);
 
             // Background: solid black
             _cam.clearFlags = CameraClearFlags.SolidColor;
