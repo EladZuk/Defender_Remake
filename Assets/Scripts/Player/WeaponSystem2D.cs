@@ -73,6 +73,7 @@ namespace DefenderRemake.Player
 
         private void HandleFiring()
         {
+            if (Time.timeScale == 0f) return; // Prevent firing while paused
             if (IsOverheated || Time.time < _nextFireTime) return;
 
             // GetKeyDown = tap to fire. Fire rate is controlled by _nextFireTime
