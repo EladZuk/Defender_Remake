@@ -7,7 +7,7 @@
 
 ## About
 
-A two-phase game insipred by **Defender (1981)**.
+A two-phase space shooter game insipred by 1980s classics.
 
 Phase 1 is a 2D side-scrolling rescue mission where the player saves mechanical bots from an alien swarm. until an unbeatable boss forces their death. The screen tears open into a fully 3D aerial arena where every bot rescued orbits the ship as a glowing drone. Those drones are a strong weapon capable of breaching enemy shields.
 
@@ -16,9 +16,11 @@ Phase 1 is a 2D side-scrolling rescue mission where the player saves mechanical 
 
 ---
 
-## Solo Developer Note
+## Solo Student Developer Note
 
 This project was developed by a single person. All commits, code, and design decisions are from one contributor. The GitHub contribution history reflects this intentionally.
+
+Educational Project Disclaimer:This is a non-profit student project made for educational purposes only. All assets and code were built from scratch.
 
 ---
 
