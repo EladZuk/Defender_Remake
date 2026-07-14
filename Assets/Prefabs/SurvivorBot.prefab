@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de24b26c1582b1244995ba84002c50dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefenderRemake.Gameplay.SurvivorSpaceWalk2D
-  floatAmplitude: 0.4
-  floatFrequency: 0.8
-  driftSpeed: 0.3
+  floatAmplitude: 0.61
+  floatFrequency: 0.95
+  driftSpeed: 0.42
   rotationSpeed: 10

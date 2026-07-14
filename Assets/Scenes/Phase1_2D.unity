@@ -377,7 +377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.04401785, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.23529412, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -439,7 +439,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 798, y: -3}
+  m_AnchoredPosition: {x: 798, y: -2.9999695}
   m_SizeDelta: {x: 600, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &268874156
@@ -1728,7 +1728,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 114, y: -22.17}
+  m_AnchoredPosition: {x: 93.2, y: -22.17}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &472055835
@@ -1811,7 +1811,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 145, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &565107771
 MonoBehaviour:
@@ -1833,7 +1833,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 324852284, guid: 8d71446a0220f6247ae37010d81943b7, type: 3}
+  m_Sprite: {fileID: -1276369306, guid: f587195b1d373e8428d8f061d5a5195c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2040,7 +2040,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.04401785, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.23529412, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2627,7 +2627,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 157, y: -95.1}
-  m_SizeDelta: {x: 2000, y: 10}
+  m_SizeDelta: {x: 2000, y: 13.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &932025137
 MonoBehaviour:
@@ -2642,7 +2642,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.23266764, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2702,7 +2702,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 145, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &947995770
 MonoBehaviour:
@@ -2724,7 +2724,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 324852284, guid: 8d71446a0220f6247ae37010d81943b7, type: 3}
+  m_Sprite: {fileID: -1276369306, guid: f587195b1d373e8428d8f061d5a5195c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2777,7 +2777,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 145, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &956978914
 MonoBehaviour:
@@ -2799,7 +2799,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 324852284, guid: 8d71446a0220f6247ae37010d81943b7, type: 3}
+  m_Sprite: {fileID: -1276369306, guid: f587195b1d373e8428d8f061d5a5195c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -21422,9 +21422,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ce21a715d1f004245b7ff69a72f7565d, type: 2}
   timeBetweenWaves: 6
   slowShooterPrefab: {fileID: 5374335465665797191, guid: 88310b950be3ba24e9ec469d54cb3d9b, type: 3}
-  kamikazePrefab: {fileID: 7143515018761002310, guid: 78e7206479a02204b9dd26aefe1ea401, type: 3}
+  kamikazePrefab: {fileID: 5065707515693425800, guid: d0c3bd10d5192f9409e00651c0796afc, type: 3}
   survivorPrefab: {fileID: 3255029124341135826, guid: 6e2df2bdebe2df54d80544aec2ddea38, type: 3}
-  bossPrefab: {fileID: 2405658643316124434, guid: ed310038b92ec7148b65f803a97f2de3, type: 3}
+  bossPrefab: {fileID: 6133710726321390790, guid: c7dcc1e341dbdd5448233aa925e5468e, type: 3}
   bossWarningText: BOSS INCOMING
   waveSubtitleText: KILL ENEMIES AND SAVE SURVIVORS!
   enemySpawnOffscreenDistance: 25
@@ -21944,7 +21944,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.04401785, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.23529412, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

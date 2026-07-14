@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b5e7bb06d360c4e449537470e9a39403
+guid: 914570597cb408547802e8c86be35036
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,9 +48,9 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 250
+  spritePixelsToUnits: 300
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Untitled_Artwork (1)_0
+      name: "Me\u0301dium_Enemy_0"
       rect:
         serializedVersion: 2
-        x: 53
-        y: 8
-        width: 369
-        height: 470
+        x: 66
+        y: 46
+        width: 270
+        height: 388
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,8 +125,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5c02bb1aadf522b4497e3e705e3cb145
-      internalID: 909338730
+      spriteID: c37616f558d4b8e40bc18d7747dc2807
+      internalID: -23012363
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: a38e08bd2808ef94aa5b4cf6377702e1
+    spriteID: 4941e8bd07a328d438bb68492c8d7072
     internalID: 0
     vertices: []
     indices: 
@@ -147,7 +147,7 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Untitled_Artwork (1)_0: 909338730
+      "Me\u0301dium_Enemy_0": -23012363
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

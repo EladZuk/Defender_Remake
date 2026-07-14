@@ -243,10 +243,10 @@ namespace DefenderRemake.Enemies
         {
             if (_sr != null)
             {
-                Color original = _sr.color;
                 _sr.color = Color.red;
                 yield return new WaitForSeconds(0.1f);
-                _sr.color = original;
+                // Hard reset to white unless the boss entered rage mode during the flash
+                if (!_isRaging && _sr != null) _sr.color = Color.white;
             }
         }
     }

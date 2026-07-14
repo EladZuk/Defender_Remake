@@ -51,9 +51,6 @@ namespace DefenderRemake.Systems
 
         private IEnumerator DeathSequence(bool killedByBoss, DefenderRemake.Player.PlayerController2D player)
         {
-            // Wait 2 seconds so the explosion effect finishes playing
-            yield return new WaitForSeconds(2f);
-
             if (sessionData == null)
             {
                 Debug.LogWarning("GameStateManager is missing GameSessionData! Restarting scene as fallback.");
@@ -61,39 +58,55 @@ namespace DefenderRemake.Systems
                 yield break;
             }
 
+            // If the boss just got the final kill, transition IMMEDIATELY
+            if (killedByBoss && sessionData.Lives <= 1)
+            {
+                sessionData.LoseLife();
+                
+                bool sceneExists = SceneExistsInBuild(transitionSceneName);
+                if (sceneExists)
+                {
+                    Debug.Log($"Boss delivered the killing blow! Transitioning to: {transitionSceneName}");
+                    
+                    // Freeze time and capture the exact frame before transitioning
+                    Time.timeScale = 0f;
+                    yield return new WaitForEndOfFrame();
+                    
+                    Texture2D tex = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+                    tex.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
+                    tex.Apply();
+                    
+                    TransitionData.ScreenSnapshot = tex;
+                    
+                    // Restore time so the next scene plays normally
+                    Time.timeScale = 1f;
+                    SceneManager.LoadScene(transitionSceneName);
+                }
+                else
+                {
+                    Debug.LogWarning($"Transition scene '{transitionSceneName}' not found in Build Settings! Showing Game Over UI as fallback.");
+                    ShowGameOverUI();
+                }
+                yield break;
+            }
+
+            // Normal death sequence (enemies, or not the last life)
+            // Wait 2 seconds so the explosion effect finishes playing
+            yield return new WaitForSeconds(2f);
+
             sessionData.LoseLife();
 
             if (sessionData.Lives > 0)
             {
-                // Still have lives — always respawn, even if boss killed us
+                // Still have lives — always respawn
                 Debug.Log($"Life lost. Remaining lives: {sessionData.Lives}. Respawning...");
                 if (player != null) player.Respawn();
             }
             else
             {
-                // Out of lives
-                if (killedByBoss)
-                {
-                    // Boss got the final kill — try to transition to the 3D Phase
-                    bool sceneExists = SceneExistsInBuild(transitionSceneName);
-                    if (sceneExists)
-                    {
-                        Debug.Log($"Boss delivered the killing blow! Transitioning to: {transitionSceneName}");
-                        SceneManager.LoadScene(transitionSceneName);
-                    }
-                    else
-                    {
-                        // Transition scene not built yet — fall back to Game Over UI
-                        Debug.LogWarning($"Transition scene '{transitionSceneName}' not found in Build Settings! Showing Game Over UI as fallback.");
-                        ShowGameOverUI();
-                    }
-                }
-                else
-                {
-                    // Regular enemy got the last kill — Game Over UI
-                    Debug.Log("GAME OVER! Activating UI.");
-                    ShowGameOverUI();
-                }
+                // Regular enemy got the last kill — Game Over UI
+                Debug.Log("GAME OVER! Activating UI.");
+                ShowGameOverUI();
             }
         }
         private void ShowGameOverUI()

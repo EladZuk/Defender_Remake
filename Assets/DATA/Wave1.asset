@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Wave1
   m_EditorClassIdentifier: Assembly-CSharp::DefenderRemake.Data.WaveData
   waveName: WAVE 1
-  slowShooterCount: 5
-  kamikazeCount: 2
+  slowShooterCount: 1
+  kamikazeCount: 0
   survivorCount: 5
   timeBetweenSpawns: 2
-  spawnsBossAtEnd: 0
+  spawnsBossAtEnd: 1
