@@ -474,7 +474,7 @@ MonoBehaviour:
   backgroundImage: {fileID: 268874157}
   fillImage: {fileID: 436422574}
   normalColor: {r: 0, g: 1, b: 0.88, a: 1}
-  boostingColor: {r: 0, g: 0.7643008, b: 0.8207547, a: 1}
+  boostingColor: {r: 0, g: 1, b: 0.8784314, a: 1}
   lockedColor: {r: 1, g: 0.2, b: 0.2, a: 1}
   bgNormalColor: {r: 0, g: 0.94117653, b: 0.82745105, a: 1}
   bgLockedColor: {r: 0.6, g: 0.05, b: 0.05, a: 1}

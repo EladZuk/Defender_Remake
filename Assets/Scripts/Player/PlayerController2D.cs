@@ -97,8 +97,16 @@ namespace DefenderRemake.Player
 
         private void ApplyMovement()
         {
+            Vector2 effectiveInput = _moveInput;
+
+            // Auto-thrust forward if boosting and not holding any horizontal keys
+            if (boostSystem != null && boostSystem.IsBoosting && Mathf.Abs(effectiveInput.x) < 0.01f)
+            {
+                effectiveInput.x = Mathf.Sign(transform.localScale.x);
+            }
+
             // Determine active drag for the floaty feel
-            if (_moveInput.sqrMagnitude < 0.01f)
+            if (effectiveInput.sqrMagnitude < 0.01f)
             {
                 _rb.linearDamping = stoppingDrag; // Glides to a halt
             }
@@ -110,7 +118,7 @@ namespace DefenderRemake.Player
             // Calculate force including boost multiplier and slow debuff
             float currentBoost = boostSystem != null ? boostSystem.GetSpeedMultiplier() : 1f;
             float effectiveMultiplier = currentBoost * _slowMultiplier;
-            Vector2 force = new Vector2(_moveInput.x, _moveInput.y) * (moveForce * effectiveMultiplier);
+            Vector2 force = new Vector2(effectiveInput.x, effectiveInput.y) * (moveForce * effectiveMultiplier);
             
             _rb.AddForce(force, ForceMode2D.Force);
 
