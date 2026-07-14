@@ -225,11 +225,15 @@ namespace DefenderRemake.Enemies
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            // Ram contact — kill the player with boss flag to trigger transition
-            if (_isRaging && other.CompareTag("Player"))
+            if (other.CompareTag("Player"))
             {
                 var damageable = other.GetComponent<IDamageable>();
-                damageable?.TakeDamage(999, true); // Boss kill flag = true
+                
+                // If raging, set killedByBoss = true to trigger the transition on the last life.
+                // Otherwise, normal contact just kills the player normally (killedByBoss = false).
+                bool isFinalRageKill = _isRaging;
+                
+                damageable?.TakeDamage(999, isFinalRageKill);
             }
         }
 

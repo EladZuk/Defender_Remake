@@ -1156,6 +1156,10 @@ PrefabInstance:
       propertyPath: heatBarUI
       value: 
       objectReference: {fileID: 925739413}
+    - target: {fileID: 1645690920311884037, guid: 6f921366669656243a9ef377686a49bb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2939770088145242893, guid: 6f921366669656243a9ef377686a49bb, type: 3}
       propertyPath: m_Size.x
       value: 1.4712467
@@ -1171,6 +1175,10 @@ PrefabInstance:
     - target: {fileID: 2939770088145242893, guid: 6f921366669656243a9ef377686a49bb, type: 3}
       propertyPath: m_Offset.y
       value: -0.010936379
+      objectReference: {fileID: 0}
+    - target: {fileID: 3622176169656970556, guid: 6f921366669656243a9ef377686a49bb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.186
       objectReference: {fileID: 0}
     - target: {fileID: 3817056930670984880, guid: 6f921366669656243a9ef377686a49bb, type: 3}
       propertyPath: m_Name
@@ -1235,6 +1243,10 @@ PrefabInstance:
     - target: {fileID: 5083116473007644543, guid: 6f921366669656243a9ef377686a49bb, type: 3}
       propertyPath: useRawInput
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8688909458298677216, guid: 6f921366669656243a9ef377686a49bb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.766
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
