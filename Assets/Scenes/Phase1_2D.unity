@@ -327,6 +327,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 123307089}
   m_CullTransparentMesh: 1
+--- !u!114 &190613766 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6298032249404373921, guid: dd4098deddf6bc04d8143dd8e820ca03, type: 3}
+  m_PrefabInstance: {fileID: 1329416899}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a596d79786e7654c9838ee64028520d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DefenderRemake.Player.BoostSystem
+--- !u!4 &190613770 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4695093075929789150, guid: dd4098deddf6bc04d8143dd8e820ca03, type: 3}
+  m_PrefabInstance: {fileID: 1329416899}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &256221738
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,11 +470,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea10baed2c0be3043867928b84981785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefenderRemake.UI.BoostBarUI
-  boostSystem: {fileID: 0}
+  boostSystem: {fileID: 190613766}
   backgroundImage: {fileID: 268874157}
   fillImage: {fileID: 436422574}
   normalColor: {r: 0, g: 1, b: 0.88, a: 1}
-  boostingColor: {r: 1, g: 1, b: 1, a: 1}
+  boostingColor: {r: 0, g: 0.7643008, b: 0.8207547, a: 1}
   lockedColor: {r: 1, g: 0.2, b: 0.2, a: 1}
   bgNormalColor: {r: 0, g: 0.94117653, b: 0.82745105, a: 1}
   bgLockedColor: {r: 0.6, g: 0.05, b: 0.05, a: 1}
@@ -1139,7 +1155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eebf4a92086b7f44dada8d9d8972eb67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefenderRemake.Systems.CameraController2D
-  target: {fileID: 0}
+  target: {fileID: 190613770}
   smoothSpeed: 10
   offset: {x: 0, y: 5, z: -20}
   minX: -100
@@ -3528,6 +3544,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1782407771197904439, guid: dd4098deddf6bc04d8143dd8e820ca03, type: 3}
+      propertyPath: boostSystem
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4695093075929789150, guid: dd4098deddf6bc04d8143dd8e820ca03, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.5399254
@@ -3568,6 +3588,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8592006489661199519, guid: dd4098deddf6bc04d8143dd8e820ca03, type: 3}
+      propertyPath: heatBarUI
+      value: 
+      objectReference: {fileID: 925739413}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
