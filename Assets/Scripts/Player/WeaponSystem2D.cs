@@ -41,10 +41,14 @@ namespace DefenderRemake.Player
         
         private float _nextFireTime = 0f;
         private Coroutine _overheatCoroutine;
+        private Coroutine _fireRateBoostCoroutine;
         private IObjectPool<LaserProjectile2D> _laserPool;
+        private float _originalFireRate;
 
         private void Awake()
         {
+            _originalFireRate = fireRate;
+            
             // Initialize Unity's built-in Object Pool to prevent garbage collection spikes during high-freq firing
             _laserPool = new ObjectPool<LaserProjectile2D>(
                 createFunc: () => 
@@ -77,7 +81,9 @@ namespace DefenderRemake.Player
             if (IsOverheated || Time.time < _nextFireTime) return;
 
             // GetKeyDown = tap to fire. Fire rate is controlled by _nextFireTime
-            if (Input.GetKeyDown(fireKey))
+            // Use GetKey instead of GetKeyDown if we want holding space to auto-fire, 
+            // especially since we have a fire rate boost!
+            if (Input.GetKey(fireKey))
             {
                 FireLaser();
             }
@@ -124,6 +130,41 @@ namespace DefenderRemake.Player
             // Lockout ends — heat continues to drain via ProcessHeat naturally
             IsOverheated = false;
             _overheatCoroutine = null;
+        }
+
+        public void ResetHeatAndBoost(float duration, float fireRateMultiplier)
+        {
+            CurrentHeat = 0f;
+            IsOverheated = false;
+            if (_overheatCoroutine != null)
+            {
+                StopCoroutine(_overheatCoroutine);
+                _overheatCoroutine = null;
+            }
+
+            if (_fireRateBoostCoroutine != null)
+            {
+                StopCoroutine(_fireRateBoostCoroutine);
+            }
+            _fireRateBoostCoroutine = StartCoroutine(FireRateBoostRoutine(duration, fireRateMultiplier));
+        }
+
+        private IEnumerator FireRateBoostRoutine(float duration, float multiplier)
+        {
+            fireRate = _originalFireRate * multiplier;
+            yield return new WaitForSeconds(duration);
+            fireRate = _originalFireRate;
+            _fireRateBoostCoroutine = null;
+        }
+
+        // Called by PlayerController2D when the player respawns
+        public void FullReset()
+        {
+            CurrentHeat = 0f;
+            IsOverheated = false;
+            fireRate = _originalFireRate;
+            _overheatCoroutine = null;
+            _fireRateBoostCoroutine = null;
         }
     }
 }

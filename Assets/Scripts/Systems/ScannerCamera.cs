@@ -67,20 +67,23 @@ namespace DefenderRemake.Systems
             _cam.depth = -2;
         }
 
-        // Called from inspector or setup — set culling mask to GameWorld layer only
-        // so the scanner doesn't render UI or other non-world objects
-        [ContextMenu("Set Culling Mask to GameWorld Layer")]
+        // Called from inspector or setup — set culling mask to GameWorld and ScannerOnly layers
+        [ContextMenu("Set Culling Mask to GameWorld & ScannerOnly")]
         private void SetCullingMask()
         {
             if (_cam == null) _cam = GetComponent<Camera>();
             int gameWorldLayer = LayerMask.NameToLayer("GameWorld");
-            if (gameWorldLayer == -1)
+            int scannerLayer = LayerMask.NameToLayer("ScannerOnly");
+            
+            if (gameWorldLayer == -1 || scannerLayer == -1)
             {
-                Debug.LogWarning("ScannerCamera: 'GameWorld' layer not found. Create it in Tags & Layers first.");
+                Debug.LogWarning("ScannerCamera: 'GameWorld' or 'ScannerOnly' layer not found. Create them in Tags & Layers first.");
                 return;
             }
-            _cam.cullingMask = 1 << gameWorldLayer;
-            Debug.Log("ScannerCamera: Culling mask set to GameWorld layer.");
+            
+            // Bitwise OR to include both layers in the mask
+            _cam.cullingMask = (1 << gameWorldLayer) | (1 << scannerLayer);
+            Debug.Log("ScannerCamera: Culling mask set to GameWorld + ScannerOnly.");
         }
     }
 }

@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 5083116473007644543}
   - component: {fileID: 4242371129090960750}
   - component: {fileID: 761235261156519973}
+  - component: {fileID: -5102710968833006731}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -198,12 +199,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 1998321305, guid: 709536bb96ec43a4eaef9b68b71c4de8, type: 3}
+  m_Sprite: {fileID: 1237306011, guid: 0926e50bb012bda4984d7968db2b4e8d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.75, y: 0.98}
+  m_Size: {x: 4.84, y: 2.67}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -343,8 +344,23 @@ MonoBehaviour:
   heatPerShot: 25
   passiveCooldownRate: 35
   overheatLockoutDuration: 2
-  fireRate: 0.3
+  fireRate: 0.1
   _currentHeatDebug: 0
+--- !u!114 &-5102710968833006731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3817056930670984880}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf9f919372989874dada4ec0df6d1e59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DefenderRemake.Systems.ScannerBlip
+  blipColor: {r: 0, g: 0.79118645, b: 1, a: 1}
+  blipScale: 6
+  blipSprite: {fileID: 324852284, guid: 8d71446a0220f6247ae37010d81943b7, type: 3}
 --- !u!1 &8759150732754876615
 GameObject:
   m_ObjectHideFlags: 0

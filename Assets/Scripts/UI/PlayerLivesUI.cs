@@ -11,29 +11,36 @@ namespace DefenderRemake.UI
     public class PlayerLivesUI : MonoBehaviour
     {
         [Header("Dependencies")]
-        [SerializeField, Tooltip("PlayerHealth component on the Player")]
-        private PlayerHealth playerHealth;
+        [SerializeField, Tooltip("Persistent session data tracking lives across scenes")]
+        private DefenderRemake.Data.GameSessionData sessionData;
 
         [Header("Life Icons")]
         [SerializeField, Tooltip("Assign each life icon Image here (max 3 by default)")]
         private Image[] lifeIcons;
 
+        [Header("Visuals")]
+        [SerializeField, Tooltip("Color of a lost life")]
+        private Color deadColor = new Color(0.2f, 0.2f, 0.2f, 0.5f);
+        
+        [SerializeField, Tooltip("Color of an active life")]
+        private Color aliveColor = Color.white;
+
         private void Start()
         {
-            if (playerHealth == null) return;
+            if (sessionData == null)
+            {
+                Debug.LogWarning("PlayerLivesUI is missing GameSessionData reference!");
+                return;
+            }
 
-            // Subscribe to the lives changed event — no polling needed
-            playerHealth.OnLivesChanged += UpdateIcons;
-
-            // Initialise display
-            UpdateIcons(playerHealth.CurrentLives);
+            sessionData.OnLivesChanged += UpdateIcons;
+            UpdateIcons(sessionData.Lives);
         }
 
         private void OnDestroy()
         {
-            // Always unsubscribe to prevent memory leaks
-            if (playerHealth != null)
-                playerHealth.OnLivesChanged -= UpdateIcons;
+            if (sessionData != null)
+                sessionData.OnLivesChanged -= UpdateIcons;
         }
 
         private void UpdateIcons(int currentLives)
@@ -41,7 +48,9 @@ namespace DefenderRemake.UI
             for (int i = 0; i < lifeIcons.Length; i++)
             {
                 if (lifeIcons[i] != null)
-                    lifeIcons[i].enabled = i < currentLives;
+                {
+                    lifeIcons[i].color = (i < currentLives) ? aliveColor : deadColor;
+                }
             }
         }
     }

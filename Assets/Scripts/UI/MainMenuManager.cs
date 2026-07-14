@@ -10,6 +10,10 @@ namespace DefenderRemake.UI
     /// </summary>
     public class MainMenuManager : MonoBehaviour
     {
+        [Header("Data Reset")]
+        [SerializeField, Tooltip("Reference to GameSessionData to wipe clean on new game")]
+        private DefenderRemake.Data.GameSessionData sessionData;
+
         [Header("Scene Settings")]
         [SerializeField, Tooltip("The exact name of the gameplay scene to load")]
         private string gameplaySceneName = "Phase1_2D";
@@ -37,9 +41,15 @@ namespace DefenderRemake.UI
         /// </summary>
         public void StartGame()
         {
+            if (sessionData != null)
+            {
+                Debug.Log("Wiping old session data for fresh run...");
+                sessionData.ResetSession();
+            }
+
             Debug.Log("Starting Game: Loading " + gameplaySceneName);
             Time.timeScale = 1f; 
-            SceneManager.LoadScene(gameplaySceneName);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(gameplaySceneName);
         }
 
         /// <summary>

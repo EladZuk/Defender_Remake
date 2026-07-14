@@ -47,11 +47,17 @@ namespace DefenderRemake.Player
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            // Ignore the player
+            // Ignore the player's own collider
             if (other.CompareTag("Player")) return;
 
-            // TODO: Deal damage if the other object is an enemy
+            // Check if the object we hit can take damage
+            var damageable = other.GetComponent<DefenderRemake.Systems.IDamageable>();
+            if (damageable != null)
+            {
+                damageable.TakeDamage(1);
+            }
             
+            // Instantly destroy (pool) the laser upon hitting anything that isn't the player
             ReleaseToPool();
         }
 

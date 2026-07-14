@@ -1054,6 +1054,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95a2ed8ae19f95546b8cf8d2adb6ff9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefenderRemake.UI.MainMenuManager
+  sessionData: {fileID: 11400000, guid: e4ad54f11ad6f5f40ace3fc08a408167, type: 2}
   gameplaySceneName: Phase1_2D
   muteButtonImage: {fileID: 1525913002}
   unmutedSprite: {fileID: 568568404, guid: 1080e00bbdeac7f4d82f7d9d88e1780a, type: 3}
@@ -1277,6 +1278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95a2ed8ae19f95546b8cf8d2adb6ff9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefenderRemake.UI.MainMenuManager
+  sessionData: {fileID: 0}
   gameplaySceneName: Phase1_2D
   muteButtonImage: {fileID: 1525913002}
   unmutedSprite: {fileID: 568568404, guid: 1080e00bbdeac7f4d82f7d9d88e1780a, type: 3}

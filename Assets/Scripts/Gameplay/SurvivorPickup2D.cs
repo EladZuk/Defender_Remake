@@ -19,6 +19,12 @@ namespace DefenderRemake.Gameplay
         [SerializeField, Tooltip("Prefab with SavedTextEffect to spawn on pickup")]
         private GameObject savedTextPrefab;
 
+        [Header("Combat Buff")]
+        [SerializeField, Tooltip("Duration of the fire-rate boost in seconds")]
+        private float buffDuration = 5f;
+        [SerializeField, Tooltip("Fire rate multiplier (e.g. 0.5 means twice as fast)")]
+        private float fireRateMultiplier = 0.5f;
+
         private bool _isCollected = false;
 
         private void Awake()
@@ -35,6 +41,14 @@ namespace DefenderRemake.Gameplay
             if (other.CompareTag("Player"))
             {
                 _isCollected = true;
+                
+                // Apply Combat Buff
+                var weapon = other.GetComponent<DefenderRemake.Player.WeaponSystem2D>();
+                if (weapon != null)
+                {
+                    weapon.ResetHeatAndBoost(buffDuration, fireRateMultiplier);
+                }
+
                 Collect();
             }
         }
