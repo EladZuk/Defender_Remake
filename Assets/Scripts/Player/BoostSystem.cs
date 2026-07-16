@@ -106,5 +106,16 @@ namespace DefenderRemake.Player
         {
             return IsBoosting ? boostSpeedMultiplier : 1f;
         }
+
+        public void ResetMeter()
+        {
+            CurrentMeter = 100f;
+            IsLockedOut = false;
+            if (_cooldownCoroutine != null)
+            {
+                StopCoroutine(_cooldownCoroutine);
+                _cooldownCoroutine = null;
+            }
+        }
     }
 }

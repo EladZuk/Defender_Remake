@@ -86,6 +86,13 @@ namespace DefenderRemake.Enemies
 
         protected virtual void Die()
         {
+            // Release any captured survivors back into the wild
+            var captured = GetComponentsInChildren<DefenderRemake.Gameplay.SurvivorPickup2D>();
+            foreach (var survivor in captured)
+            {
+                survivor.Release();
+            }
+
             if (explosionPrefab != null)
             {
                 Instantiate(explosionPrefab, transform.position, Quaternion.identity);

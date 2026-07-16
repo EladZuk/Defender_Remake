@@ -147,6 +147,16 @@ namespace DefenderRemake.Player
                 StopCoroutine(_fireRateBoostCoroutine);
             }
             _fireRateBoostCoroutine = StartCoroutine(FireRateBoostRoutine(duration, fireRateMultiplier));
+
+            // Reset Boost meter
+            var boostSystem = GetComponent<BoostSystem>();
+            if (boostSystem != null) boostSystem.ResetMeter();
+
+            // Trigger UI animations
+            if (heatBarUI != null) heatBarUI.TriggerPulseAnimation();
+            
+            var boostBarUI = FindFirstObjectByType<DefenderRemake.UI.BoostBarUI>();
+            if (boostBarUI != null) boostBarUI.TriggerPulseAnimation();
         }
 
         private IEnumerator FireRateBoostRoutine(float duration, float multiplier)

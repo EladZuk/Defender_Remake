@@ -201,12 +201,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27f75241e77483b4bbade7922f6fb7e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefenderRemake.Enemies.EnemyShooter2D
-  minY: -3.4
-  maxY: 9.3
+  minY: -3
+  maxY: 8.8
   explosionPrefab: {fileID: 0}
   scoreValue: 100
   moveSpeed: 3
-  waveAmplitude: 1.5
+  waveAmplitude: 3
   waveFrequency: 2
   projectilePrefab: {fileID: -7856456978683342517, guid: eb015eddb42838c43b72d15d2e432df1, type: 3}
   firePoint: {fileID: 1196920949086720911}

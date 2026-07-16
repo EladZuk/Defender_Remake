@@ -50,6 +50,9 @@ namespace DefenderRemake.Player
             // Ignore the player's own collider
             if (other.CompareTag("Player")) return;
 
+            // Ignore survivors floating in space
+            if (other.GetComponent<DefenderRemake.Gameplay.SurvivorPickup2D>() != null) return;
+
             // Check if the object we hit can take damage
             var damageable = other.GetComponent<DefenderRemake.Systems.IDamageable>();
             if (damageable != null)

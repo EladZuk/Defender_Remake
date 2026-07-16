@@ -473,6 +473,9 @@ MonoBehaviour:
   boostSystem: {fileID: 190613766}
   backgroundImage: {fileID: 268874157}
   fillImage: {fileID: 436422574}
+  boostText: {fileID: 0}
+  pulseScaleMultiplier: 1.5
+  pulseDuration: 0.4
   normalColor: {r: 0, g: 1, b: 0.88, a: 1}
   boostingColor: {r: 0, g: 1, b: 0.8784314, a: 1}
   lockedColor: {r: 1, g: 0.2, b: 0.2, a: 1}
@@ -2450,6 +2453,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DefenderRemake.UI.HeatBarUI
   backgroundImage: {fileID: 925739414}
   fillImage: {fileID: 5063785}
+  heatText: {fileID: 862988644}
+  pulseScaleMultiplier: 2
+  pulseDuration: 0.7
   coolColor: {r: 1, g: 0.22122124, b: 0, a: 1}
   warmColor: {r: 1, g: 0.08989841, b: 0, a: 1}
   hotColor: {r: 0.8207547, g: 0, b: 0, a: 1}

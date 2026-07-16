@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System.Collections;
 using DefenderRemake.Player;
 
 namespace DefenderRemake.UI
@@ -23,6 +25,16 @@ namespace DefenderRemake.UI
 
         [SerializeField, Tooltip("The fill Image for the boost meter")]
         private Image fillImage;
+
+        [SerializeField, Tooltip("The Text object for the Boost label (requires TextMeshPro)")]
+        private TextMeshProUGUI boostText;
+
+        [Header("Pulse Animation")]
+        [SerializeField, Tooltip("How large the text scales up when boosted")]
+        private float pulseScaleMultiplier = 1.5f;
+        
+        [SerializeField, Tooltip("How long the pulse lasts in seconds")]
+        private float pulseDuration = 0.4f;
 
         [Header("Colors")]
         [SerializeField] private Color normalColor   = new Color(0f, 1f, 0.88f, 1f); // #00FFE0
@@ -54,6 +66,37 @@ namespace DefenderRemake.UI
                 fillImage.color = normalColor;
                 if (backgroundImage != null) backgroundImage.color = bgNormalColor;
             }
+        }
+
+        public void TriggerPulseAnimation()
+        {
+            if (boostText == null || !gameObject.activeInHierarchy) return;
+            StopAllCoroutines();
+            StartCoroutine(PulseRoutine());
+        }
+
+        private IEnumerator PulseRoutine()
+        {
+            Color originalColor = boostText.color;
+            Vector3 originalScale = Vector3.one;
+            
+            boostText.color = normalColor; // Cyan
+            boostText.transform.localScale = originalScale * pulseScaleMultiplier;
+            
+            float elapsed = 0f;
+            while (elapsed < pulseDuration)
+            {
+                elapsed += Time.deltaTime;
+                float t = elapsed / pulseDuration;
+                
+                boostText.color = Color.Lerp(normalColor, originalColor, t);
+                boostText.transform.localScale = Vector3.Lerp(originalScale * pulseScaleMultiplier, originalScale, t);
+                
+                yield return null;
+            }
+            
+            boostText.color = originalColor;
+            boostText.transform.localScale = originalScale;
         }
     }
 }
