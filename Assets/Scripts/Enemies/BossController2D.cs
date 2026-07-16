@@ -229,11 +229,9 @@ namespace DefenderRemake.Enemies
             {
                 var damageable = other.GetComponent<IDamageable>();
                 
-                // If raging, set killedByBoss = true to trigger the transition on the last life.
-                // Otherwise, normal contact just kills the player normally (killedByBoss = false).
-                bool isFinalRageKill = _isRaging;
-                
-                damageable?.TakeDamage(999, isFinalRageKill);
+                // Any collision with the boss now flags as killedByBoss = true, 
+                // which will trigger the transition if it's the player's final life.
+                damageable?.TakeDamage(999, true);
             }
         }
 

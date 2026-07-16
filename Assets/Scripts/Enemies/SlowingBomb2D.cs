@@ -17,6 +17,8 @@ namespace DefenderRemake.Enemies
         [SerializeField] private float explosionRadius = 3f;
         [SerializeField] private float lingerTime = 4f;
         [SerializeField] private float homingSpeed = 4f;
+        [SerializeField, Tooltip("How fast the bomb spins while homing (degrees per second)")]
+        private float bombRotationSpeed = 360f;
 
         [Header("Slow Effect")]
         [SerializeField, Tooltip("Speed multiplier while inside the AoE (0.3 = 30% speed)")]
@@ -67,6 +69,10 @@ namespace DefenderRemake.Enemies
 
         private void Update()
         {
+            // Visual rotation while homing and exploding
+            float currentRotSpeed = _hasExploded ? bombRotationSpeed * 0.25f : bombRotationSpeed;
+            transform.Rotate(0f, 0f, currentRotSpeed * Time.deltaTime);
+
             if (_hasExploded) return;
 
             // Homing logic
@@ -104,7 +110,8 @@ namespace DefenderRemake.Enemies
         private IEnumerator ExplodeNowRoutine()
         {
             _hasExploded = true;
-            _rb.linearVelocity = Vector2.zero;
+            // Drift slowly in the direction it was already heading
+            _rb.linearVelocity *= 0.25f;
             _rb.gravityScale = 0f;
 
             // Expand the physics collider immediately

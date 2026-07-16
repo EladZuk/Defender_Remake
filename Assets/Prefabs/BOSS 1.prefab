@@ -281,7 +281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DefenderRemake.Systems.ScannerBlip
   blipColor: {r: 1, g: 0, b: 0, a: 1}
   blipScale: 10
-  blipSprite: {fileID: -971031863, guid: 298a9933c5c32804498717acc974a1b7, type: 3}
+  blipSprite: {fileID: -987032228, guid: 11baa57d9634bce4abec97ba337ed869, type: 3}
 --- !u!1 &8148377178783784280
 GameObject:
   m_ObjectHideFlags: 0

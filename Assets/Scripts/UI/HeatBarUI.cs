@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System.Collections;
 
 namespace DefenderRemake.UI
 {
     /// <summary>
     /// Drives the overheat bar Image fill and color.
-    /// TODO: Wire up to WeaponSystem2D when the weapon branch is merged.
     /// Color states:
     ///   Cool       : cyanColor
     ///   Heating up : orange
@@ -19,6 +20,16 @@ namespace DefenderRemake.UI
 
         [SerializeField, Tooltip("The fill Image for the heat meter")]
         private Image fillImage;
+
+        [SerializeField, Tooltip("The Text object for the Heat label (requires TextMeshPro)")]
+        private TextMeshProUGUI heatText;
+
+        [Header("Pulse Animation")]
+        [SerializeField, Tooltip("How large the text scales up when boosted")]
+        private float pulseScaleMultiplier = 1.5f;
+        
+        [SerializeField, Tooltip("How long the pulse lasts in seconds")]
+        private float pulseDuration = 0.4f;
 
         [Header("Colors")]
         [SerializeField] private Color coolColor = new Color(0f, 1f, 0.88f, 1f); // #00FFE0
@@ -55,6 +66,39 @@ namespace DefenderRemake.UI
                 fillImage.color = coolColor;
                 if (backgroundImage != null) backgroundImage.color = bgNormalColor;
             }
+        }
+
+        public void TriggerPulseAnimation()
+        {
+            if (heatText == null || !gameObject.activeInHierarchy) return;
+            StopAllCoroutines();
+            StartCoroutine(PulseRoutine());
+        }
+
+        private IEnumerator PulseRoutine()
+        {
+            Color originalColor = heatText.color;
+            Vector3 originalScale = Vector3.one; // Assume default scale is 1
+            
+            // Pop up
+            heatText.color = coolColor;
+            heatText.transform.localScale = originalScale * pulseScaleMultiplier;
+            
+            // Shrink back
+            float elapsed = 0f;
+            while (elapsed < pulseDuration)
+            {
+                elapsed += Time.deltaTime;
+                float t = elapsed / pulseDuration;
+                
+                heatText.color = Color.Lerp(coolColor, originalColor, t);
+                heatText.transform.localScale = Vector3.Lerp(originalScale * pulseScaleMultiplier, originalScale, t);
+                
+                yield return null;
+            }
+            
+            heatText.color = originalColor;
+            heatText.transform.localScale = originalScale;
         }
     }
 }
