@@ -38,9 +38,34 @@ namespace DefenderRemake.Player
             {
                 if (_isBoosting == value) return;
                 _isBoosting = value;
-                // Toggle the visual effect whenever boost state actually changes
+                
                 if (boostVisualEffect != null)
-                    boostVisualEffect.SetActive(_isBoosting);
+                {
+                    ParticleSystem ps = boostVisualEffect.GetComponent<ParticleSystem>();
+                    TrailRenderer tr = boostVisualEffect.GetComponent<TrailRenderer>();
+
+                    // If it's a particle or trail, the GameObject MUST be active for them to work.
+                    // We turn the object on, but we don't turn it off, so it can fade out smoothly.
+                    if ((ps != null || tr != null) && !boostVisualEffect.activeSelf)
+                    {
+                        boostVisualEffect.SetActive(true);
+                    }
+
+                    if (ps != null)
+                    {
+                        if (_isBoosting) ps.Play();
+                        else ps.Stop();
+                    }
+                    else if (tr != null)
+                    {
+                        tr.emitting = _isBoosting;
+                    }
+                    else
+                    {
+                        // Fallback to instantly turning it off (good for Sprites or Spheres)
+                        boostVisualEffect.SetActive(_isBoosting);
+                    }
+                }
             }
         }
 

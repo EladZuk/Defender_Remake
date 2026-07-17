@@ -31,6 +31,10 @@ namespace DefenderRemake.Player
         private Vector3 _moveInput;
         
         private float _currentVisualRoll;
+        
+        // Accumulated mouse inputs between physics frames
+        private float _accumulatedMouseX;
+        private float _accumulatedMouseY;
 
         private void Awake()
         {
@@ -49,7 +53,12 @@ namespace DefenderRemake.Player
 
         private void Update()
         {
-            HandleMouseAim();
+            // 1. Accumulate input (Update runs faster than FixedUpdate, so we must add them up)
+            _accumulatedMouseX += Input.GetAxisRaw("Mouse X") * mouseSensitivity;
+            
+            float my = Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
+            if (invertY) my = -my;
+            _accumulatedMouseY += my;
 
             float horizontal = Input.GetAxisRaw("Horizontal");
             float vertical = Input.GetAxisRaw("Vertical");
@@ -60,31 +69,30 @@ namespace DefenderRemake.Player
 
         private void FixedUpdate()
         {
+            ApplyMouseAimPhysics();
             ApplyMovement();
         }
 
-        private void HandleMouseAim()
+        private void ApplyMouseAimPhysics()
         {
-            float mouseX = Input.GetAxisRaw("Mouse X") * mouseSensitivity;
-            float mouseY = Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
-            if (invertY) mouseY = -mouseY;
+            // 1. Calculate the rotation from the accumulated mouse input
+            Quaternion yaw = Quaternion.AngleAxis(_accumulatedMouseX, Vector3.up);
+            Quaternion pitch = Quaternion.AngleAxis(-_accumulatedMouseY, Vector3.right);
+            
+            // Reset accumulators for the next frame
+            _accumulatedMouseX = 0f;
+            _accumulatedMouseY = 0f;
 
-            // 1. TRUE AERODYNAMIC FLIGHT
-            // We apply Pitch and Yaw locally. This permanently solves the FPS "Drill Spin" bug at the poles
-            // because you are always turning relative to the nose of the ship.
-            transform.Rotate(Vector3.up, mouseX, Space.Self);
-            transform.Rotate(Vector3.right, -mouseY, Space.Self);
-
-            // 2. SOFT AUTO-LEVELING
-            // Because local rotations cause natural roll drift, we gently pull the ship back upright.
-            // We read the global Z rotation (roll) and gently counteract it.
-            float currentRoll = transform.eulerAngles.z;
+            // 2. Auto-Leveling (Anti-Roll)
+            // Calculate how much we need to counter-rotate the Z axis to stay upright
+            float currentRoll = _rb.rotation.eulerAngles.z;
             if (currentRoll > 180f) currentRoll -= 360f;
-            
-            // Counter-rotate the Z axis to stay level with the horizon
-            transform.Rotate(Vector3.forward, -currentRoll * 5f * Time.deltaTime, Space.Self);
-            
-            // NOTE: We do not clamp pitch! You can fly full loops like a real space fighter.
+            Quaternion level = Quaternion.AngleAxis(-currentRoll * 5f * Time.fixedDeltaTime, Vector3.forward);
+
+            // 3. Apply the rotation physically! 
+            // Using MoveRotation instead of transform.Rotate allows the physics engine 
+            // to perfectly smooth out the camera movement without jittering!
+            _rb.MoveRotation(_rb.rotation * yaw * pitch * level);
         }
 
         private void ApplyMovement()
