@@ -388,7 +388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefenderRemake.Systems.SpriteAnimator
   frames:
-  - {fileID: -2100051921, guid: 0772056f99b4b2e41a993ce8022ac745, type: 3}
-  - {fileID: 1352807466, guid: 670eeb08bb81e844aa69b539c23b7d2d, type: 3}
-  - {fileID: -1990173437, guid: 64df7e013a83dee4e8dad7dd4e21aa8b, type: 3}
+  - {fileID: 1391236666, guid: 41d2c9fb8c2981643beb08d521bd9e72, type: 3}
+  - {fileID: 1760577923, guid: 4686166407ce57443a53584199312e99, type: 3}
+  - {fileID: 265118856, guid: ccde9cd508ecebd47801c4ba027bd1d8, type: 3}
   fps: 4

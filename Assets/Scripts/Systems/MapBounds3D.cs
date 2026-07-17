@@ -11,11 +11,10 @@ namespace DefenderRemake.Systems
         [Header("Arena Limits")]
         [SerializeField] private float minX = -50f;
         [SerializeField] private float maxX = 50f;
+        [SerializeField] private float minY = -20f;
+        [SerializeField] private float maxY = 20f;
         [SerializeField] private float minZ = -50f;
         [SerializeField] private float maxZ = 50f;
-        
-        [Tooltip("The fixed height the player flies at")]
-        [SerializeField] private float lockedY = 0f;
 
         private Rigidbody _rb;
 
@@ -33,12 +32,13 @@ namespace DefenderRemake.Systems
             if (pos.x < minX) { pos.x = minX; hitWall = true; }
             else if (pos.x > maxX) { pos.x = maxX; hitWall = true; }
 
+            // Clamp Y
+            if (pos.y < minY) { pos.y = minY; hitWall = true; }
+            else if (pos.y > maxY) { pos.y = maxY; hitWall = true; }
+
             // Clamp Z
             if (pos.z < minZ) { pos.z = minZ; hitWall = true; }
             else if (pos.z > maxZ) { pos.z = maxZ; hitWall = true; }
-
-            // Lock Y (for an open 2D-style arena in 3D space)
-            pos.y = lockedY;
 
             if (hitWall)
             {
@@ -48,9 +48,10 @@ namespace DefenderRemake.Systems
                     Vector3 vel = _rb.linearVelocity;
                     if (pos.x <= minX && vel.x < 0) vel.x = 0;
                     if (pos.x >= maxX && vel.x > 0) vel.x = 0;
+                    if (pos.y <= minY && vel.y < 0) vel.y = 0;
+                    if (pos.y >= maxY && vel.y > 0) vel.y = 0;
                     if (pos.z <= minZ && vel.z < 0) vel.z = 0;
                     if (pos.z >= maxZ && vel.z > 0) vel.z = 0;
-                    vel.y = 0;
                     _rb.linearVelocity = vel;
                 }
                 
@@ -64,8 +65,8 @@ namespace DefenderRemake.Systems
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;
-            Vector3 center = new Vector3((minX + maxX) / 2f, lockedY, (minZ + maxZ) / 2f);
-            Vector3 size = new Vector3(maxX - minX, 1f, maxZ - minZ);
+            Vector3 center = new Vector3((minX + maxX) / 2f, (minY + maxY) / 2f, (minZ + maxZ) / 2f);
+            Vector3 size = new Vector3(maxX - minX, maxY - minY, maxZ - minZ);
             Gizmos.DrawWireCube(center, size);
         }
     }
