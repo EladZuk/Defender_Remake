@@ -76,6 +76,9 @@ namespace DefenderRemake.Gameplay
                 // Spawn it
                 GameObject asteroid = Instantiate(prefab, pos, Random.rotation, this.transform);
                 
+                // Add the universal floating script so the debris feels alive!
+                asteroid.AddComponent<FloatingSpaceProp3D>();
+                
                 // Randomize scale
                 float scale = Random.Range(minScale, maxScale);
                 asteroid.transform.localScale = new Vector3(scale, scale, scale);

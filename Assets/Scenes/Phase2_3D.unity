@@ -802,6 +802,7 @@ GameObject:
   - component: {fileID: 1809872013}
   - component: {fileID: 1809872012}
   - component: {fileID: 1809872011}
+  - component: {fileID: 1809872014}
   m_Layer: 0
   m_Name: EnviromentBounds
   m_TagString: Untagged
@@ -832,10 +833,10 @@ MonoBehaviour:
   - {fileID: 5261734093885520539, guid: c01cc671d644b33498168a9110ff0d1c, type: 3}
   - {fileID: 3353572951669199805, guid: 3f0af8cb7b560a24ab36546931762735, type: 3}
   - {fileID: 8809928765934799914, guid: 7e75aceaf9354c9419f3dfbd12574782, type: 3}
-  asteroidCount: 800
-  wallThickness: 15
-  minScale: 150
-  maxScale: 250
+  asteroidCount: 1000
+  wallThickness: 20
+  minScale: 200
+  maxScale: 300
 --- !u!114 &1809872012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -869,6 +870,45 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1809872014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809872010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdf0f306bd12da543b96b2f13233477c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DefenderRemake.Gameplay.EnvironmentPropScatterer
+  mapBounds: {fileID: 5196764720278387493}
+  propConfigs:
+  - propPrefab: {fileID: 4478218815670934813, guid: 5980cc9a7b65e2e4c997d7462e01373c, type: 3}
+    spawnAmount: 1
+    minScale: 500
+    maxScale: 600
+    minDistanceFromCenter: 15
+  - propPrefab: {fileID: 1399185934189573728, guid: e2bf2963b04d3f54fb6a654fa580b00d, type: 3}
+    spawnAmount: 5
+    minScale: 150
+    maxScale: 150
+    minDistanceFromCenter: 20
+  - propPrefab: {fileID: 332844311690665887, guid: 1641788f54e55e54ca9bdbf1516c91ea, type: 3}
+    spawnAmount: 5
+    minScale: 150
+    maxScale: 150
+    minDistanceFromCenter: 10
+  - propPrefab: {fileID: 4571696142744906851, guid: 7f9a34032b6397b45b490216e5bfb7f4, type: 3}
+    spawnAmount: 10
+    minScale: 150
+    maxScale: 150
+    minDistanceFromCenter: 5
+--- !u!1 &1900565019 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 61467778383380213, guid: 68951d36a5848714b9a394c114f08ec5, type: 3}
+  m_PrefabInstance: {fileID: 748563442635259427}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2108139714
 GameObject:
   m_ObjectHideFlags: 0
@@ -1036,10 +1076,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9085010180714521214, guid: 68951d36a5848714b9a394c114f08ec5, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 61467778383380213, guid: 68951d36a5848714b9a394c114f08ec5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5196764720278387498}
   m_SourcePrefab: {fileID: 100100000, guid: 68951d36a5848714b9a394c114f08ec5, type: 3}
 --- !u!4 &5196764720278387490 stripped
 Transform:
@@ -1051,12 +1098,33 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6517171226627863953, guid: 68951d36a5848714b9a394c114f08ec5, type: 3}
   m_PrefabInstance: {fileID: 748563442635259427}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1900565019}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74d2c2a2145ab8e4cb3d496928e92952, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefenderRemake.Systems.MapBounds3D
+--- !u!65 &5196764720278387498
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900565019}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 11, y: 1.9999995, z: 6.999998}
+  m_Center: {x: 0, y: 2.4999998, z: 1.9999998}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
