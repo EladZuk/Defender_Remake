@@ -29,13 +29,23 @@ namespace DefenderRemake.Gameplay
             Destroy(gameObject, lifetime);
         }
 
-        public void Fire(Vector3 direction)
+        private int _damage = 1;
+
+        public void Fire(Vector3 direction, int overrideDamage = -1)
         {
             // Pull the exact speed from our centralized GameManager!
             float speed = 800f; 
             if (PersistentGameManager.Instance != null)
             {
                 speed = isPlayerLaser ? PersistentGameManager.Instance.playerLaserSpeed : PersistentGameManager.Instance.enemyLaserSpeed;
+                
+                // Base damage
+                _damage = isPlayerLaser ? PersistentGameManager.Instance.playerLaserDamage : PersistentGameManager.Instance.enemyLaserDamage;
+            }
+
+            if (overrideDamage != -1)
+            {
+                _damage = overrideDamage;
             }
 
             _rb.linearVelocity = direction.normalized * speed;
@@ -43,15 +53,34 @@ namespace DefenderRemake.Gameplay
 
         private void OnCollisionEnter(Collision collision)
         {
-            // Optional: Spawn a particle hit effect
+            HandleHit(collision.collider, collision.contacts[0].point, collision.contacts[0].normal);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            HandleHit(other, transform.position, -transform.forward);
+        }
+
+        private void HandleHit(Collider hitCollider, Vector3 hitPoint, Vector3 hitNormal)
+        {
             if (hitEffectPrefab != null)
             {
-                Instantiate(hitEffectPrefab, collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
+                Instantiate(hitEffectPrefab, hitPoint, Quaternion.LookRotation(hitNormal));
             }
 
-            // TODO: Deal damage based on PersistentGameManager damage stats!
+            IDamageable damageable = hitCollider.GetComponentInParent<IDamageable>();
+            
+            if (damageable != null)
+            {
+                bool hitPlayer = hitCollider.GetComponentInParent<DefenderRemake.Player.PlayerController3D>() != null;
 
-            // Destroy the laser itself
+                // Prevent Friendly Fire
+                if (isPlayerLaser && hitPlayer) return;
+                if (!isPlayerLaser && !hitPlayer) return;
+
+                damageable.TakeDamage(_damage);
+            }
+
             Destroy(gameObject);
         }
     }

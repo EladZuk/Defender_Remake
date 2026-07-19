@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 7005781722376287371}
   - component: {fileID: 8827818991198043573}
   - component: {fileID: 7642686936295418723}
-  - component: {fileID: -750519641469276190}
+  - component: {fileID: -4875497003073008294}
   m_Layer: 0
-  m_Name: PlayerLaser
+  m_Name: Enemy_RegLaser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63d5d511bbe16b44c802defaf99fa8e6, type: 2}
+  - {fileID: 2100000, guid: 2bf523fd404fbe04a9d72b73e1bc89a5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -134,8 +134,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DefenderRemake.Gameplay.LaserProjectile3D
   lifetime: 2
   hitEffectPrefab: {fileID: 0}
-  isPlayerLaser: 1
---- !u!136 &-750519641469276190
+  isPlayerLaser: 0
+--- !u!136 &-4875497003073008294
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

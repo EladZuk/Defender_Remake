@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 7005781722376287371}
   - component: {fileID: 8827818991198043573}
   - component: {fileID: 7642686936295418723}
-  - component: {fileID: -750519641469276190}
+  - component: {fileID: 6356183268306036107}
   m_Layer: 0
-  m_Name: PlayerLaser
+  m_Name: Enemy_EliteLaser 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,8 +31,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 6, y: 9, z: 0}
-  m_LocalScale: {x: 0.4078, y: 2.2430582, z: 0.4078}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 11.000776, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
@@ -69,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63d5d511bbe16b44c802defaf99fa8e6, type: 2}
+  - {fileID: 2100000, guid: 2bf523fd404fbe04a9d72b73e1bc89a5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -134,8 +134,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DefenderRemake.Gameplay.LaserProjectile3D
   lifetime: 2
   hitEffectPrefab: {fileID: 0}
-  isPlayerLaser: 1
---- !u!136 &-750519641469276190
+  isPlayerLaser: 0
+--- !u!136 &6356183268306036107
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -155,6 +155,6 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5000001
-  m_Height: 2.0000005
+  m_Height: 2.0000002
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}

@@ -12,6 +12,8 @@ namespace DefenderRemake.Player
         [Header("Weapon Config")]
         [SerializeField, Tooltip("Prefab for the laser shot")] 
         private LaserProjectile3D laserPrefab;
+        [SerializeField, Tooltip("Damage dealt by each laser shot (Inspector Override)")]
+        private int laserDamage = 1;
         [SerializeField, Tooltip("Where the laser fires from (usually the nose of the ship)")] 
         private Transform firePoint;
         [SerializeField, Tooltip("Input key to shoot")] 
@@ -22,6 +24,8 @@ namespace DefenderRemake.Player
         private Camera mainCamera;
         [SerializeField, Tooltip("Max distance the laser targets if nothing is hit")]
         private float maxTargetDistance = 1000f;
+        [SerializeField, Tooltip("How wide the invisible auto-aim cylinder is. Bigger = easier to hit enemies.")]
+        private float autoAimRadius = 30f;
 
         [Header("UI")]
         [SerializeField, Tooltip("Reference to the HeatBarUI to update every frame")]
@@ -118,27 +122,44 @@ namespace DefenderRemake.Player
                 _overheatCoroutine = StartCoroutine(OverheatRoutine());
             }
 
-            // CROSSHAIR TARGETING (Raycast from center of screen)
-            Vector3 targetPoint;
+            // GIMBALLED AUTO-AIM (Thick SphereCast from center of screen)
+            Vector3 targetPoint = Vector3.zero;
             Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f)); // Center of screen
             
-            if (Physics.Raycast(ray, out RaycastHit hit, maxTargetDistance))
+            RaycastHit[] hits = Physics.SphereCastAll(ray, autoAimRadius, maxTargetDistance);
+            bool foundTarget = false;
+            
+            // Sort hits by distance to find the closest valid target
+            System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+
+            foreach (var h in hits)
             {
-                targetPoint = hit.point;
+                // Ignore hitting ourselves
+                if (h.collider.GetComponentInParent<PlayerController3D>() != null) continue;
+
+                // ONLY gimbal lock if it's an enemy
+                if (h.collider.GetComponentInParent<DefenderRemake.Enemies.EnemyBase3D>() != null)
+                {
+                    targetPoint = h.collider.bounds.center;
+                    foundTarget = true;
+                    break;
+                }
             }
-            else
+
+            if (!foundTarget)
             {
+                // If no enemy is in the cone, shoot perfectly straight ahead. Do not snap to props!
                 targetPoint = ray.origin + ray.direction * maxTargetDistance;
             }
 
-            // Calculate firing direction from the ship's nose to the crosshair target
+            // Calculate firing direction from the ship's nose to the auto-aimed target
             Vector3 fireDirection = (targetPoint - firePoint.position).normalized;
 
             var laser = _laserPool.Get();
             laser.transform.position = firePoint.position;
             laser.transform.rotation = Quaternion.LookRotation(fireDirection); // Align laser visual
             
-            laser.Fire(fireDirection);
+            laser.Fire(fireDirection, laserDamage);
 
             // Save heat to Persistent Data in case they warp during combat (unlikely but safe)
             if (PersistentGameManager.Instance != null)

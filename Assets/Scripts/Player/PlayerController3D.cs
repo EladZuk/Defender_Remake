@@ -1,9 +1,12 @@
 using UnityEngine;
+using System.Collections;
+using DefenderRemake.Systems;
+using DefenderRemake.Gameplay;
 
 namespace DefenderRemake.Player
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class PlayerController3D : MonoBehaviour
+    public class PlayerController3D : MonoBehaviour, IDamageable
     {
         [Header("Thrust Dynamics")]
         [SerializeField] private float moveForce = 150f;
@@ -26,6 +29,12 @@ namespace DefenderRemake.Player
         [SerializeField, Tooltip("How quickly the ship visually snaps to its roll angle")]
         private float visualBankSpeed = 5f;
 
+        [Header("Survival Stats")]
+        [SerializeField, Tooltip("How much hull health the ship has if the shield breaks")]
+        private int maxHullHealth = 50;
+        
+        private int _currentHullHealth;
+
         private Rigidbody _rb;
         private BoostSystem _boostSystem;
         private Vector3 _moveInput;
@@ -36,10 +45,20 @@ namespace DefenderRemake.Player
         private float _accumulatedMouseX;
         private float _accumulatedMouseY;
 
+        private EnergyShield3D _energyShield;
+        private bool _isInvulnerable = false;
+
         private void Awake()
         {
             _rb = GetComponent<Rigidbody>();
             _boostSystem = GetComponent<BoostSystem>();
+            _energyShield = GetComponentInChildren<EnergyShield3D>(true);
+            if (_energyShield == null)
+            {
+                Debug.LogError($"[PLAYER SETUP ERROR] {gameObject.name} is missing the EnergyShield3D script!");
+            }
+            
+            _currentHullHealth = maxHullHealth;
             
             _rb.useGravity = false; 
             _rb.interpolation = RigidbodyInterpolation.Interpolate;
@@ -142,6 +161,54 @@ namespace DefenderRemake.Player
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+        }
+
+        public void TakeDamage(int amount, bool killedByBoss = false)
+        {
+            if (_isInvulnerable) return;
+
+            int damageToHull = amount;
+            if (_energyShield != null)
+            {
+                damageToHull = _energyShield.AbsorbDamage(amount);
+            }
+
+            if (damageToHull > 0)
+            {
+                _currentHullHealth -= damageToHull;
+                
+                if (_currentHullHealth <= 0)
+                {
+                    Die();
+                }
+                else
+                {
+                    StartCoroutine(InvulnerabilityRoutine(1.0f));
+                }
+            }
+            else
+            {
+                StartCoroutine(InvulnerabilityRoutine(0.5f));
+            }
+        }
+
+        private void Die()
+        {
+            Debug.Log("Player Ship Destroyed in 3D Space!");
+            gameObject.SetActive(false);
+
+            if (PersistentGameManager.Instance != null)
+            {
+                PersistentGameManager.Instance.LoseLife();
+                // TODO: Respawn logic depending on how we handle 3D respawns!
+            }
+        }
+
+        private IEnumerator InvulnerabilityRoutine(float duration)
+        {
+            _isInvulnerable = true;
+            yield return new WaitForSeconds(duration);
+            _isInvulnerable = false;
         }
     }
 }
