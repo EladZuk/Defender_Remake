@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &133651146003126413
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6425699401410751246}
+  - component: {fileID: 6454426958747943888}
+  - component: {fileID: 336898680823243600}
+  m_Layer: 0
+  m_Name: MapBoundaries
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6425699401410751246
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133651146003126413}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 68.71397, y: -14.63758, z: 85.63426}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6454426958747943888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133651146003126413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41922318cf50a5c4b8196064d6c7d981, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DefenderRemake.UI.MapBoundaryWalls3D
+  mapBounds: {fileID: 0}
+  gridMaterial: {fileID: 2100000, guid: 674476d460cb8af4fb4e33fe8058b3d5, type: 2}
+  flipWalls180: 0
+  visibilityDistance: 35
+  colorPropertyName: _BaseColor
+--- !u!114 &336898680823243600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133651146003126413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfb4e645e8ccd92448deae3e51eacf32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DefenderRemake.Gameplay.AsteroidFieldGenerator
+  mapBounds: {fileID: 0}
+  asteroidPrefabs:
+  - {fileID: 4464264951838768291, guid: d8a4042f063026748b047cdb86205688, type: 3}
+  - {fileID: 5739117975291824903, guid: df8bd81289a913f4c9949281b9734a28, type: 3}
+  - {fileID: 1666949410343444566, guid: d723d7f835878e64da2cd30f20a9526d, type: 3}
+  - {fileID: 8220558701109990197, guid: 43425fce9cc001447bca3905c558c910, type: 3}
+  - {fileID: 927116739775353682, guid: 0d075664f338e8b4bafa0ca4caeceaa6, type: 3}
+  - {fileID: 294679043618574608, guid: fe0fae4523b4a3d4c9e4705161804cd5, type: 3}
+  - {fileID: 5261734093885520539, guid: c01cc671d644b33498168a9110ff0d1c, type: 3}
+  - {fileID: 3353572951669199805, guid: 3f0af8cb7b560a24ab36546931762735, type: 3}
+  - {fileID: 8809928765934799914, guid: 7e75aceaf9354c9419f3dfbd12574782, type: 3}
+  asteroidCount: 1000
+  wallThickness: 15
+  minScale: 50
+  maxScale: 200
