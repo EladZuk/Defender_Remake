@@ -1,10 +1,13 @@
 using UnityEngine;
+using System;
 using System.Collections;
 
 namespace DefenderRemake.Player
 {
     public class BoostSystem : MonoBehaviour
     {
+        public event Action<float> OnBoostMeterChanged;
+
         [Header("Boost Dynamics")]
         [SerializeField, Tooltip("Speed multiplier when boost is active")] 
         private float boostSpeedMultiplier = 2.2f;
@@ -90,6 +93,8 @@ namespace DefenderRemake.Player
 
         private void ProcessMeter()
         {
+            float previousMeter = CurrentMeter;
+
             if (IsBoosting)
             {
                 // Stop any recovery if we somehow started boosting again
@@ -113,6 +118,11 @@ namespace DefenderRemake.Player
                 // Passive recovery when not boosting and not locked out
                 CurrentMeter += refillRate * Time.deltaTime;
                 CurrentMeter = Mathf.Clamp(CurrentMeter, 0f, 100f);
+            }
+
+            if (CurrentMeter != previousMeter)
+            {
+                OnBoostMeterChanged?.Invoke(CurrentMeter);
             }
         }
 

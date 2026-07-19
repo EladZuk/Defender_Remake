@@ -4,11 +4,19 @@ using System.Collections;
 using DefenderRemake.UI;
 using DefenderRemake.Gameplay;
 using DefenderRemake.Systems;
+using DefenderRemake.Data;
+using System;
 
 namespace DefenderRemake.Player
 {
     public class WeaponSystem3D : MonoBehaviour
     {
+        public event Action<float, bool> OnHeatChanged;
+
+        [Header("Persistent Data")]
+        [SerializeField, Tooltip("Required to save/load heat between phases")]
+        private GameSessionData sessionData;
+
         [Header("Weapon Config")]
         [SerializeField, Tooltip("Prefab for the laser shot")] 
         private LaserProjectile3D laserPrefab;
@@ -46,7 +54,11 @@ namespace DefenderRemake.Player
         public float CurrentHeat
         {
             get => _currentHeatDebug;
-            private set => _currentHeatDebug = value;
+            private set
+            {
+                _currentHeatDebug = value;
+                OnHeatChanged?.Invoke(_currentHeatDebug, IsOverheated);
+            }
         }
         public bool IsOverheated { get; private set; }
         
@@ -80,10 +92,9 @@ namespace DefenderRemake.Player
 
         private void Start()
         {
-            // Read carried over heat from the 2D phase!
-            if (PersistentGameManager.Instance != null)
+            if (sessionData != null)
             {
-                CurrentHeat = PersistentGameManager.Instance.carryoverHeatLevel;
+                CurrentHeat = sessionData.HeatLevel;
                 if (CurrentHeat >= 100f)
                 {
                     _overheatCoroutine = StartCoroutine(OverheatRoutine());
@@ -161,10 +172,9 @@ namespace DefenderRemake.Player
             
             laser.Fire(fireDirection, laserDamage);
 
-            // Save heat to Persistent Data in case they warp during combat (unlikely but safe)
-            if (PersistentGameManager.Instance != null)
+            if (sessionData != null)
             {
-                PersistentGameManager.Instance.carryoverHeatLevel = CurrentHeat;
+                sessionData.UpdateHeatLevel(CurrentHeat);
             }
         }
 

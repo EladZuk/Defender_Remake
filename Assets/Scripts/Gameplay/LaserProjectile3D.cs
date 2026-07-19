@@ -6,6 +6,12 @@ namespace DefenderRemake.Gameplay
     [RequireComponent(typeof(Rigidbody))]
     public class LaserProjectile3D : MonoBehaviour
     {
+        [Header("Laser Stats")]
+        [SerializeField, Tooltip("Flight speed of the laser")] 
+        private float speed = 800f;
+        [SerializeField, Tooltip("Damage dealt by this laser")] 
+        private int baseDamage = 1;
+
         [Header("Projectile Settings")]
         [SerializeField] private float lifetime = 3f;
         [SerializeField] private GameObject hitEffectPrefab;
@@ -33,22 +39,12 @@ namespace DefenderRemake.Gameplay
 
         public void Fire(Vector3 direction, int overrideDamage = -1)
         {
-            // Pull the exact speed from our centralized GameManager!
-            float speed = 800f; 
-            if (PersistentGameManager.Instance != null)
-            {
-                speed = isPlayerLaser ? PersistentGameManager.Instance.playerLaserSpeed : PersistentGameManager.Instance.enemyLaserSpeed;
-                
-                // Base damage
-                _damage = isPlayerLaser ? PersistentGameManager.Instance.playerLaserDamage : PersistentGameManager.Instance.enemyLaserDamage;
-            }
+            _rb = GetComponent<Rigidbody>();
+            
+            _damage = (overrideDamage > 0) ? overrideDamage : baseDamage;
 
-            if (overrideDamage != -1)
-            {
-                _damage = overrideDamage;
-            }
-
-            _rb.linearVelocity = direction.normalized * speed;
+            _rb.linearVelocity = direction * speed;
+            Destroy(gameObject, lifetime);
         }
 
         private void OnCollisionEnter(Collision collision)

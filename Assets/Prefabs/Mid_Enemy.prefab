@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3297c3b4866d094db8f5294c69e9761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefenderRemake.Enemies.EnemyAI3D_Kamikaze
+  sessionData: {fileID: 11400000, guid: e4ad54f11ad6f5f40ace3fc08a408167, type: 2}
   maxHealth: 10
   scoreValue: 100
   explosionPrefab: {fileID: 0}

@@ -675,6 +675,65 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &891037858
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 891037859}
+  - component: {fileID: 891037860}
+  m_Layer: 5
+  m_Name: HUD
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &891037859
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 891037858}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1429017586}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &891037860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 891037858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e565dee344d1f4f8996f1cad8d3900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DefenderRemake.UI.HUDManager3D
+  sessionData: {fileID: 11400000, guid: e4ad54f11ad6f5f40ace3fc08a408167, type: 2}
+  player: {fileID: 791955668742470732, guid: 5c3fb01ea5b5a5d438fbf45e0928feb9, type: 3}
+  weapon: {fileID: 3995243912383555806, guid: 5c3fb01ea5b5a5d438fbf45e0928feb9, type: 3}
+  boost: {fileID: 8638294826075935692, guid: 5c3fb01ea5b5a5d438fbf45e0928feb9, type: 3}
+  shield: {fileID: 5777947109274356274, guid: 5c3fb01ea5b5a5d438fbf45e0928feb9, type: 3}
+  hullHealthSlider: {fileID: 0}
+  shieldSlider: {fileID: 0}
+  heatSlider: {fileID: 0}
+  boostSlider: {fileID: 0}
+  scoreText: {fileID: 0}
+  livesText: {fileID: 0}
 --- !u!1 &1429017582
 GameObject:
   m_ObjectHideFlags: 0
@@ -772,6 +831,7 @@ RectTransform:
   m_Children:
   - {fileID: 2108139715}
   - {fileID: 200703424}
+  - {fileID: 891037859}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

@@ -1,12 +1,16 @@
 using UnityEngine;
 using DefenderRemake.Systems;
 using DefenderRemake.Gameplay;
+using DefenderRemake.Data;
 
 namespace DefenderRemake.Enemies
 {
     [RequireComponent(typeof(Rigidbody), typeof(Collider))]
     public abstract class EnemyBase3D : MonoBehaviour, IDamageable
     {
+        [Header("Persistent Data")]
+        [SerializeField] protected GameSessionData sessionData;
+
         [Header("Base Stats")]
         [SerializeField] protected int maxHealth = 10;
         [SerializeField] protected int scoreValue = 100;
@@ -67,9 +71,9 @@ namespace DefenderRemake.Enemies
             }
 
             // Score
-            if (PersistentGameManager.Instance != null)
+            if (sessionData != null)
             {
-                PersistentGameManager.Instance.AddScore(scoreValue);
+                sessionData.AddScore(scoreValue);
             }
 
             // Drops

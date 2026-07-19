@@ -1,13 +1,19 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using DefenderRemake.Systems;
 using DefenderRemake.Gameplay;
+using DefenderRemake.Data;
 
 namespace DefenderRemake.Player
 {
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerController3D : MonoBehaviour, IDamageable
     {
+        [Header("Persistent Data")]
+        [SerializeField, Tooltip("Required for lives/score handoff to Phase 2 HUD")]
+        private GameSessionData sessionData;
+
         [Header("Thrust Dynamics")]
         [SerializeField] private float moveForce = 150f;
         [SerializeField] private float maxSpeed = 40f;
@@ -33,6 +39,10 @@ namespace DefenderRemake.Player
         [SerializeField, Tooltip("How much hull health the ship has if the shield breaks")]
         private int maxHullHealth = 50;
         
+        public int MaxHullHealth => maxHullHealth;
+        public int CurrentHullHealth => _currentHullHealth;
+        public event Action<int, int> OnHullHealthChanged;
+
         private int _currentHullHealth;
 
         private Rigidbody _rb;
@@ -176,6 +186,7 @@ namespace DefenderRemake.Player
             if (damageToHull > 0)
             {
                 _currentHullHealth -= damageToHull;
+                OnHullHealthChanged?.Invoke(_currentHullHealth, maxHullHealth);
                 
                 if (_currentHullHealth <= 0)
                 {
@@ -197,10 +208,10 @@ namespace DefenderRemake.Player
             Debug.Log("Player Ship Destroyed in 3D Space!");
             gameObject.SetActive(false);
 
-            if (PersistentGameManager.Instance != null)
+            if (sessionData != null)
             {
-                PersistentGameManager.Instance.LoseLife();
-                // TODO: Respawn logic depending on how we handle 3D respawns!
+                sessionData.LoseLife();
+                // TODO: Respawn logic
             }
         }
 

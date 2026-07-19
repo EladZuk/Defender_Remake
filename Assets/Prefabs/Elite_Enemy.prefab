@@ -325,6 +325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da1a949721cf21149bd317e729cc4cd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefenderRemake.Enemies.EnemyAI3D_Elite
+  sessionData: {fileID: 11400000, guid: e4ad54f11ad6f5f40ace3fc08a408167, type: 2}
   maxHealth: 200
   scoreValue: 1000
   explosionPrefab: {fileID: 0}

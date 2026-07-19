@@ -1,10 +1,13 @@
 using UnityEngine;
+using System;
 using System.Collections;
 
 namespace DefenderRemake.Gameplay
 {
     public class EnergyShield3D : MonoBehaviour
     {
+        public event Action<int, int> OnShieldHealthChanged;
+
         [Header("Shield Stats")]
         public int maxShield = 100;
         public float rechargeDelay = 3f; // Time before shield starts recharging after taking damage
@@ -23,6 +26,7 @@ namespace DefenderRemake.Gameplay
         private Coroutine _flashCoroutine;
         private MaterialPropertyBlock _propBlock;
 
+        public int MaxShield => maxShield;
         public int CurrentShield => _currentShield;
 
         private void Awake()
@@ -32,7 +36,6 @@ namespace DefenderRemake.Gameplay
 
             if (shieldRenderer != null)
             {
-                // Absolute bulletproof hide: Disable the entire GameObject!
                 shieldRenderer.gameObject.SetActive(false);
             }
         }
@@ -41,8 +44,14 @@ namespace DefenderRemake.Gameplay
         {
             if (_currentShield < maxShield && Time.time > _lastDamageTime + rechargeDelay)
             {
+                int oldShield = _currentShield;
                 _currentShield += Mathf.RoundToInt(rechargeRate * Time.deltaTime);
                 if (_currentShield > maxShield) _currentShield = maxShield;
+                
+                if (_currentShield != oldShield)
+                {
+                    OnShieldHealthChanged?.Invoke(_currentShield, maxShield);
+                }
             }
         }
 
@@ -61,6 +70,8 @@ namespace DefenderRemake.Gameplay
             
             if (_currentShield < 0) 
                 _currentShield = 0;
+                
+            OnShieldHealthChanged?.Invoke(_currentShield, maxShield);
 
             return Mathf.Max(0, remainingDamage);
         }
